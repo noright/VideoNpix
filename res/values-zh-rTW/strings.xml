@@ -1,0 +1,24 @@
+<resources>
+
+    <string name="app_name">videoNpixandBarcode</string>
+    <string name="menu_settings">設置</string>
+    <string name="loading">載入中…</string>
+    <string name="sdcard_not_found">沒有sd卡！請插入sd卡！</string>
+    <string name="brightness">亮度</string>
+    <string name="volume">音量</string>
+    <string name="login_title">播放畫面&#160;&#160;&#160;設置</string>
+    <string name="pixnum">畫框數:&#160;&#160;&#160;</string>
+    <string name="pixnum_2">2 畫框&#160;&#160;&#160;</string>
+    <string name="pixnum_4">4 畫框&#160;&#160;&#160;</string>
+    <string name="pixnum_6">6 畫框</string>
+    <string name="playorder">播放順序:&#160;&#160;&#160;&#160;</string>
+    <string name="order_random">隨機&#160;&#160;</string>
+    <string name="order_sequential">順序</string>
+    <string name="ok">確定</string>
+    <string name="cancel">取消</string>
+    <string name="Product">商品名</string>
+    <string name="Barcode">條碼:</string>
+    <string name="Details">詳細信息:</string>
+    <string name="NONO">無此商品信息</string>
+
+</resources>
