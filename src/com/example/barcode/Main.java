@@ -124,9 +124,9 @@ public class Main extends Activity {
 			if (cursor.moveToFirst()) {
 				name[num] = cursor.getString(cursor.getColumnIndex("name"));
 				price[num] = cursor.getString(cursor.getColumnIndex("price"));
-				detail[num] = getResources().getString(R.string.Product)+"„Äé"
+				detail[num] = getResources().getString(R.string.Product)+"°∫"
 						+ cursor.getString(cursor.getColumnIndex("name"))
-						+ "„Äè\n" +getResources().getString(R.string.Barcode)+ barcode + "\n\n"+
+						+ "°ª\n" +getResources().getString(R.string.Barcode)+ barcode + "\n\n"+
 						getResources().getString(R.string.Details)+"\n"
 						+ cursor.getString(cursor.getColumnIndex("detail"));
 			}
@@ -137,9 +137,9 @@ public class Main extends Activity {
 				String ii=getResources().getString(R.string.NONO);
 				name[num] = ii;
 				detail[num] = ii;
-				data.add(barcode + "„ÄÄ" + name[num]);
+				data.add(barcode + "°°" + name[num]);
 			} else {
-				data.add(barcode + "„Äé" + name[num] + "„Äè„ÄÄ„ÄÄ" + price[num]);
+				data.add(barcode + "°∫" + name[num] + "°ª°°°°" + price[num]);
 			}
 			System.out.println(detail[num]);
 			System.out.println(num);

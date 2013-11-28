@@ -49,11 +49,11 @@ public class DBHelper extends SQLiteOpenHelper {
 		else{
 			
 			db.execSQL("INSERT INTO " + TABLE_NAME + "(" + ID + ", "+ BARCODE + ", " + NAME + ", " + PRICE + ", "+ DETAIL + ") VALUES " +
-					"(null, \"9787302177869\", \"Linux Development Kit: The most effective way to project development\", \"58\", \"Authorï¼šJohn Fusco\nPublisher: Tsinghua University Press\nPriceï¼š58å…ƒ\")"); 
+					"(null, \"9787302177869\", \"Linux Development Kit: The most effective way to project development\", \"58\", \"Author£ºJohn Fusco\nPublisher: Tsinghua University Press\nPrice£º58Ôª\")"); 
 			db.execSQL("INSERT INTO " + TABLE_NAME + "(" + ID + ", "+ BARCODE + ", " + NAME + ", " + PRICE + ", "+ DETAIL + ") VALUES " +
 					"(null, \"9789866072000\", \"Google Android SDK development examples\", \"NT950\", \"Author: She Zhilong, Chen Yu Xun, Zheng Ming-jie, Chen Xiaofeng\nPublisher: Wyatt knows culture \n Price:NT950\")"); 
 			db.execSQL("INSERT INTO " + TABLE_NAME + "(" + ID + ", "+ BARCODE + ", " + NAME + ", " + PRICE + ", "+ DETAIL + ") VALUES " +
-					"(null, \"9787121100000\", \"iPhone SDK 3 Developer Guide\", \"65\", \"Authorï¼šBill Dudney Chris Adamson\nPublisher: Electronic Industry Press \n Priceï¼š65å…ƒ\")"); 
+					"(null, \"9787121100000\", \"iPhone SDK 3 Developer Guide\", \"65\", \"Author£ºBill Dudney Chris Adamson\nPublisher: Electronic Industry Press \n Price£º65Ôª\")"); 
 			db.execSQL("INSERT INTO " + TABLE_NAME + "(" + ID + ", "+ BARCODE + ", " + NAME + ", " + PRICE + ", "+ DETAIL + ") VALUES " + 
 					"(null, \"9787111347446\", \"Linux kernel design Art: Graphic Linux operating system architecture design and implementation of the principle \",\" 79\",\" Author: New design team \n Press: Machinery Industry Press \n Price: 79\")"); 
 			db.execSQL("INSERT INTO " + TABLE_NAME + "(" + ID + ", "+ BARCODE + ", " + NAME + ", " + PRICE + ", "+ DETAIL + ") VALUES " + 
@@ -61,7 +61,7 @@ public class DBHelper extends SQLiteOpenHelper {
 			db.execSQL("INSERT INTO " + TABLE_NAME + "(" + ID + ", "+ BARCODE + ", " + NAME + ", " + PRICE + ", "+ DETAIL + ") VALUES " + 
 					"(null, \"9787111267768\", \"Python study manual \", \" 89\", \" Author: Mark Lutz forward, Hou Jing translated \n Press: Machinery Industry Press \n Price: 89\")"); 
 			db.execSQL("INSERT INTO " + TABLE_NAME + "(" + ID + ", "+ BARCODE + ", " + NAME + ", " + PRICE + ", "+ DETAIL + ") VALUES " +
-					"(null, \"9789861819174\", \"iPhone programming examples for classic \", \" NT480 \", \" Author: Paul Deitel waiting Eav and translations \n Publisher: Acer Feng Corp. \n Priceï¼šNT480\")"); 
+					"(null, \"9789861819174\", \"iPhone programming examples for classic \", \" NT480 \", \" Author: Paul Deitel waiting Eav and translations \n Publisher: Acer Feng Corp. \n Price£ºNT480\")"); 
 			db.execSQL("INSERT INTO " + TABLE_NAME + "(" + ID + ", "+ BARCODE + ", " + NAME + ", " + PRICE + ", "+ DETAIL + ") VALUES " +
 					"(null, \"9787564115197\", \"LINUX system Programming design \",\" 56 yuan \", \" Author: ROBERT LOVE forward to, O'REILLY TAIWAN translation of \n Press: Southeast university Publishing House \n Price: 56 yuan\")");
 			db.execSQL("INSERT INTO " + TABLE_NAME + "(" + ID + ", "+ BARCODE + ", " + NAME + ", " + PRICE + ", "+ DETAIL + ") VALUES " + 
