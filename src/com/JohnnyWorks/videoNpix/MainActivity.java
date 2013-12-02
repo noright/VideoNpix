@@ -100,7 +100,7 @@ public class MainActivity extends Activity implements OnTouchListener {
         } 
 
 		if (!ZuniMachineLib.useInternalMem) {
-			// 閸嬪灚鑴疭D閸椻剝瀚堥梽锟�			sdCardWatcher = new SDCardWatcher();
+			sdCardWatcher = new SDCardWatcher();
 			sdCardWatcher.registerSDCardStateChangeListener(this,
 					new SDRemovedListener() {
 
