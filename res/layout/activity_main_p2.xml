@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg"
     android:orientation="horizontal"
-    android:padding="80dp" >
+    android:padding="120dp" >
     
     <LinearLayout
         android:id="@+id/lay01"
