@@ -59,14 +59,6 @@ public class ZuniMachineLib {
 		return false;
 	}
 
-	/**
-	 * 應用程序運行命令獲取 Root權限，設備必須已破解(獲得ROOT權限)
-	 * 
-	 * @param command
-	 *            命令：String apkRoot="chmod 777 "+getPackageCodePath();
-	 *            RootCommand(apkRoot);
-	 * @return 應用程序是/否獲取Root權限
-	 */
 	public static String RootCommand(String command) {
 		Process process = null;
 		DataOutputStream os = null;
@@ -112,7 +104,6 @@ public class ZuniMachineLib {
 				vPath = new File(ZunidataEnvironment.getInternalStoragePath()
 						+ dir);
 			else {
-				// 取得 SD Card 位置
 				vPath = new File(ZunidataEnvironment.getExternalStoragePath()
 						+ dir);
 			}

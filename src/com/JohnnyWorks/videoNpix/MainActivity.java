@@ -100,8 +100,7 @@ public class MainActivity extends Activity implements OnTouchListener {
         } 
 
 		if (!ZuniMachineLib.useInternalMem) {
-			// 偵測SD卡拔除
-			sdCardWatcher = new SDCardWatcher();
+			// 閸嬪灚鑴疭D閸椻剝瀚堥梽锟�			sdCardWatcher = new SDCardWatcher();
 			sdCardWatcher.registerSDCardStateChangeListener(this,
 					new SDRemovedListener() {
 
@@ -158,7 +157,7 @@ public class MainActivity extends Activity implements OnTouchListener {
 				vPath = new File(ZunidataEnvironment.getInternalStoragePath()
 						+ DIR_PREFIX );
 			} else {
-				// 判斷 SD Card 有無插入
+
 				if (Environment.getExternalStorageState().equals(
 						Environment.MEDIA_REMOVED)) {
 					Toast.makeText(MainActivity.this,
@@ -166,7 +165,6 @@ public class MainActivity extends Activity implements OnTouchListener {
 							Toast.LENGTH_SHORT).show();
 					return;
 				} else {
-					// 取得 SD Card 位置
 					vPath = new File(ZunidataEnvironment.getExternalStoragePath()
 							+ DIR_PREFIX );
 				}
@@ -299,7 +297,7 @@ public class MainActivity extends Activity implements OnTouchListener {
 			idleTimer = new IdleMonitorUtil();
 		}
 		if (!delayScrSaver)
-		//idleTimer.startTimer();
+		idleTimer.startTimer();
 		super.onResume();
 	}
 

@@ -27,7 +27,6 @@ public class SDCardWatcher
 	{
 		setSDRemovedListener(mListener);
 		setSdMountListener(mListener2);
-		// 判斷 SD Card 有無插入
 		if (ZunidataEnvironment.getExternalStorageState().equals(
 				Environment.MEDIA_REMOVED))
 		{

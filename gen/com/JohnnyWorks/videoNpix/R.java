@@ -34,8 +34,8 @@ public final class R {
     }
     public static final class id {
         public static final int VideoLinearLayout1=0x7f080010;
-        public static final int button1=0x7f08001a;
-        public static final int button2=0x7f08001b;
+        public static final int button1=0x7f08001e;
+        public static final int button2=0x7f08001f;
         public static final int imageButton1=0x7f08000a;
         public static final int imageButton2=0x7f08000c;
         public static final int imageButton3=0x7f08000e;
@@ -52,13 +52,17 @@ public final class R {
         public static final int lay01=0x7f080009;
         public static final int lay02=0x7f08000b;
         public static final int linearLayout1=0x7f080000;
-        public static final int menu_settings=0x7f08001d;
-        public static final int ms=0x7f08001c;
+        public static final int menu_settings=0x7f080021;
+        public static final int ms=0x7f080020;
         public static final int radioButton1=0x7f080015;
         public static final int radioButton2=0x7f080016;
         public static final int radioButton3=0x7f080017;
         public static final int radioButton4=0x7f080018;
         public static final int radioButton5=0x7f080019;
+        public static final int radioButton6=0x7f08001a;
+        public static final int radioButton7=0x7f08001b;
+        public static final int radioButton8=0x7f08001c;
+        public static final int radioButton9=0x7f08001d;
         public static final int start=0x7f080014;
         public static final int textView1=0x7f080001;
         public static final int videoView1=0x7f080013;
@@ -92,6 +96,7 @@ public final class R {
         public static final int app_name=0x7f050000;
         public static final int brightness=0x7f050004;
         public static final int cancel=0x7f05000f;
+        public static final int five=0x7f050015;
         public static final int loading=0x7f050002;
         public static final int login_title=0x7f050006;
         public static final int menu_settings=0x7f050001;
@@ -104,7 +109,11 @@ public final class R {
         public static final int pixnum_6=0x7f05000a;
         public static final int playorder=0x7f05000b;
         public static final int sdcard_not_found=0x7f050003;
+        public static final int sixty=0x7f050017;
+        public static final int thirty=0x7f050016;
+        public static final int three=0x7f050014;
         public static final int volume=0x7f050005;
+        public static final int waiting=0x7f050018;
     }
     public static final class style {
         public static final int AppTheme=0x7f060000;

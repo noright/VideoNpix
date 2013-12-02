@@ -2,9 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
     android:background="#000"
-	android:gravity="center_horizontal"
-	android:layout_gravity="center"
+    android:gravity="center_horizontal"
     android:orientation="vertical" >
     
     <LinearLayout
@@ -22,8 +22,7 @@
 	</LinearLayout>
 	
     
-    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	    xmlns:tools="http://schemas.android.com/tools"
+    <TableLayout 
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:background="#000"  >
@@ -50,8 +49,9 @@
 	                android:id="@+id/radioButton1"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
+	                android:checked="true"
 	                android:text="@string/pixnum_2"
-	            	android:textSize="15pt" />
+	                android:textSize="15pt" />
 	
 	            <RadioButton
 	                android:id="@+id/radioButton2"
@@ -92,8 +92,9 @@
 	                android:id="@+id/radioButton4"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
+	                android:checked="true"
 	                android:text="@string/order_random"
-	            	android:textSize="15pt" />
+	                android:textSize="15pt" />
 	
 	            <RadioButton
 	                android:id="@+id/radioButton5"
@@ -105,7 +106,58 @@
 	        </RadioGroup>
 	        
 	    </TableRow>
+		<!--add for time  -->
+	    <TableRow
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        android:layout_marginTop="15dp" >
 	
+	        <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="20dp"
+	            android:text="@string/waiting"
+	            android:textColor="#fff"
+	            android:textSize="15pt" />
+	
+	        <RadioGroup
+	            android:layout_gravity="center_horizontal"
+	            android:orientation="horizontal" >
+	            
+	            <RadioButton
+	                android:id="@+id/radioButton6"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:checked="true"
+	                android:text="@string/three"
+	                android:textSize="15pt" />
+	
+	            <RadioButton
+	                android:id="@+id/radioButton7"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="@string/five"
+	                android:textSize="15pt" />
+
+	            <RadioButton
+	                android:id="@+id/radioButton8"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:checked="true"
+	                android:text="@string/thirty"
+	                android:textSize="15pt" />
+	
+	            <RadioButton
+	                android:id="@+id/radioButton9"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="@string/sixty"
+	                android:textSize="15pt" />
+	            
+	        </RadioGroup>
+	        
+	    </TableRow>
 	</TableLayout>
 	
 	<LinearLayout

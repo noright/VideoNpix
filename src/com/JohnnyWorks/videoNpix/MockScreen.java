@@ -116,64 +116,14 @@ public class MockScreen extends Activity {
 		
 		preferences = getSharedPreferences("config", Context.MODE_PRIVATE);
 		DIR_PREFIX = "/video" + preferences.getInt("pixnum", 0) + "pix/";
-
-//		if (getIntent().hasExtra("close")) {
-//			finish();
-//		} 
 		
+		GlobalString.time=preferences.getInt("time", 30);
+		
+		System.out.println(GlobalString.time);
 		if (!ZuniMachineLib.IsZuniMachine()) {
 			finish();
 		}
-
-		if (sysVersion >= 14) {
-			// new Thread()
-			// {
-			// @Override
-			// public void run()
-			// {
-			//
-			// // 強制刪除SystemBar變成全螢幕模�?
-			// for (int i = 0; i < 20; i++)
-			// {
-			// ZuniMachineLib
-			// .RootCommand(ZuniMachineLib.cmdKill_systemui);
-			// try
-			// {
-			// Thread.sleep(100);
-			// } catch (InterruptedException e)
-			// {
-			// }
-			// }
-			//
-			// }
-			// }.start();
-
-			// new Thread()
-			// {
-			// @Override
-			// public void run()
-			// {
-			// Process proc;
-			// try
-			// {
-			// proc = Runtime
-			// .getRuntime()
-			// .exec(new String[] { "su", "-c",
-			// "service call activity 79 s16 com.android.systemui" });
-			// proc.waitFor();
-			// } catch (IOException e)
-			// {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// } catch (InterruptedException e)
-			// {
-			// }
-			// }
-			// }.start();
-
-		}
 		if (!ZuniMachineLib.useInternalMem) {
-			// 偵測SD卡拔�?
 			sdCardWatcher = new SDCardWatcher();
 			sdCardWatcher.registerSDCardStateChangeListener(this,
 					new SDRemovedListener() {
@@ -202,30 +152,6 @@ public class MockScreen extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-	
-		// if (sysVersion >= 14)
-		// {
-		// new Thread()
-		// {
-		// @Override
-		// public void run()
-		// {
-		//
-		// // 強制刪除SystemBar變成全螢幕模�?
-		// for (int i = 0; i < 5; i++)
-		// ZuniMachineLib
-		// .RootCommand(ZuniMachineLib.cmdKill_systemui);
-		// try
-		// {
-		// Thread.sleep(500);
-		// } catch (InterruptedException e)
-		// {
-		// }
-		// mHandler.sendEmptyMessage(START_PLAYER);
-		// }
-		// }.start();
-		// } else
-		// {
 		if (getIntent().hasExtra("startFromPlayer")) {
 			startPlayer();
 		} else {

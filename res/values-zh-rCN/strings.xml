@@ -20,5 +20,9 @@
     <string name="Barcode">条码:</string>
     <string name="Details">详细信息:</string>
     <string name="NONO">无此商品信息</string>
-
+    <string name="three">3s</string>
+    <string name="five">5s</string>
+    <string name="thirty">30s</string>
+    <string name="sixty">60s</string>
+	<string name="waiting">等待时间:</string>
 </resources>

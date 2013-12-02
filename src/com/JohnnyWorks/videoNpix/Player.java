@@ -187,9 +187,8 @@ public class Player extends Activity {
 		setPlayingFile();
 		new Timer().schedule(new TimerTask() {
 			
-			@Override
+
 			public void run() {
-				// TODO Auto-generated method stub
 				can=true;
 			}
 		}, 2000);
@@ -264,7 +263,9 @@ public class Player extends Activity {
 	}
 
 	private boolean checkPlayedMark(int playnum) {
+
 		boolean isAllPlayed = true; 
+
 		for (int i = 0; i < playedMark.length; i++) {
 			if (playedMark[i] == false) {
 
@@ -273,6 +274,7 @@ public class Player extends Activity {
 			}
 		}
 		if (isAllPlayed) {
+
 			for (int i = 0; i < playedMark.length; i++) {
 				playedMark[i] = false;
 			}
@@ -326,7 +328,6 @@ public class Player extends Activity {
 		super.onDestroy();
 	}
 
-	/** 鍋垫脯鍏ㄥ煙(鍏ㄨ灑骞�涓婄殑瑙告帶浜嬩欢 */
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent event) {
 		switch (event.getAction()) {
@@ -384,11 +385,6 @@ public class Player extends Activity {
 	}
 
 
-//	@Override
-//	public boolean dispatchKeyEvent(KeyEvent event) {
-//
-//		return false;
-//	}
 
 	// -------------------------------------------------------------------
 	private void adjustBrightness(int offset) {

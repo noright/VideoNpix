@@ -20,7 +20,7 @@ public class LoginActivity extends Activity {
 	
 	private SharedPreferences preferences;
 	private Editor editor;
-	RadioButton rButton1, rButton2, rButton3, rButton4, rButton5;
+	RadioButton rButton1, rButton2, rButton3, rButton4, rButton5,rButton6,rButton7,rButton8,rButton9;
 	Button button1, button2;
 
 	@Override
@@ -47,12 +47,16 @@ public class LoginActivity extends Activity {
 		    rButton3 = (RadioButton) findViewById(R.id.radioButton3);
 		    rButton4 = (RadioButton) findViewById(R.id.radioButton4);
 		    rButton5 = (RadioButton) findViewById(R.id.radioButton5);
+		    rButton6 = (RadioButton) findViewById(R.id.radioButton6);
+		    rButton7 = (RadioButton) findViewById(R.id.radioButton7);
+		    rButton8 = (RadioButton) findViewById(R.id.radioButton8);
+		    rButton9 = (RadioButton) findViewById(R.id.radioButton9);
 		    button1 = (Button) findViewById(R.id.button1);
 		    button2 = (Button) findViewById(R.id.button2);
 		    
 		    rButton1.setChecked(true);
 		    rButton4.setChecked(true);
-		    
+		    rButton8.setChecked(true);
 		    
 		    button1.setOnClickListener(new OnClickListener() {
 				@Override
@@ -85,6 +89,20 @@ public class LoginActivity extends Activity {
 					    editor.commit();
 					}
 					
+					if (rButton6.isChecked()) {
+			        	editor.putInt("time", 3);
+					    editor.commit();
+					} else if (rButton7.isChecked()) {
+			        	editor.putInt("time", 5);
+					    editor.commit();
+					} else if (rButton8.isChecked()) {
+			        	editor.putInt("time", 30);
+					    editor.commit();
+					} else if (rButton9.isChecked()) {
+			        	editor.putInt("time", 60);
+					    editor.commit();
+					}
+					
 					Intent intent = new Intent(LoginActivity.this, MockScreen.class);
 					startActivity(intent);
 					finish();
@@ -92,12 +110,6 @@ public class LoginActivity extends Activity {
 				}
 			});
 			
-//		} else {
-//			Intent intent = new Intent(LoginActivity.this, Start3.class);
-//			startActivity(intent);
-//			finish();
-//		}
-
 	}
 
 	@Override

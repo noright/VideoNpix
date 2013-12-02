@@ -8,6 +8,7 @@ public class BootUpReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
+
 		Intent i = new Intent(context, MockScreen.class);
 		i.putExtra("DelayStart", true);
 		i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
