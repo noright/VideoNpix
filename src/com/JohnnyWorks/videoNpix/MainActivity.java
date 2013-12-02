@@ -64,7 +64,7 @@ public class MainActivity extends Activity implements OnTouchListener {
 	public static final String URL_PREFIX = "video2pix:";
 	private ImageButton[] imgViews;
 	private IdleMonitorUtil idleTimer;
-	private boolean delayScrSaver = false;// 暫時不開啟螢幕保護程式
+	private boolean delayScrSaver = false;
 	private File vPath = null;
 	private int sysVersion = Integer.parseInt(VERSION.SDK);
 	private SDCardWatcher sdCardWatcher;

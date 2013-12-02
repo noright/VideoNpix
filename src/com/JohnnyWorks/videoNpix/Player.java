@@ -74,9 +74,9 @@ public class Player extends Activity {
 	private BroadcastReceiver mSDCardStateChangeListener;
 	private MediaController mediaController;
 	private WakeLock mWakeLock;
-	private String playFile = null; // 指定播放的檔案路徑
-	private int playnum = 0; // 目前播放的順序指示
-	private int playMaxLenth; // 影片最大數
+	private String playFile = null; 
+	private int playnum = 0; 
+	private int playMaxLenth; 
 	private static boolean[] playedMark;
 	private String DIR_PREFIX;
 	private Boolean isRandomPlay;
@@ -146,7 +146,6 @@ public class Player extends Activity {
 			vPath = new File(ZunidataEnvironment.getInternalStoragePath()
 					+ DIR_PREFIX);
 		} else {
-			// 判斷 SD Card 有無插入
 			if (Environment.getExternalStorageState().equals(
 					Environment.MEDIA_REMOVED)) {
 				Toast.makeText(Player.this,
@@ -206,7 +205,7 @@ public class Player extends Activity {
 	private void setPlayingFile() {
 		try {
 			if (!ZuniMachineLib.useInternalMem) {
-				// 判斷 SD Card 有無插入
+
 				if (Environment.getExternalStorageState().equals(
 						Environment.MEDIA_REMOVED)) {
 					Toast.makeText(Player.this,
@@ -265,7 +264,7 @@ public class Player extends Activity {
 	}
 
 	private boolean checkPlayedMark(int playnum) {
-		boolean isAllPlayed = true; // 是否全部播完
+		boolean isAllPlayed = true; 
 		for (int i = 0; i < playedMark.length; i++) {
 			if (playedMark[i] == false) {
 
@@ -274,7 +273,6 @@ public class Player extends Activity {
 			}
 		}
 		if (isAllPlayed) {
-			// 若全部播過則清空
 			for (int i = 0; i < playedMark.length; i++) {
 				playedMark[i] = false;
 			}
@@ -328,7 +326,7 @@ public class Player extends Activity {
 		super.onDestroy();
 	}
 
-	/** 偵測全域(全螢幕)上的觸控事件 */
+	/** 鍋垫脯鍏ㄥ煙(鍏ㄨ灑骞�涓婄殑瑙告帶浜嬩欢 */
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent event) {
 		switch (event.getAction()) {
@@ -385,7 +383,7 @@ public class Player extends Activity {
 
 	}
 
-	/** 偵測全域(全螢幕)上的鍵盤事件 */
+
 //	@Override
 //	public boolean dispatchKeyEvent(KeyEvent event) {
 //
