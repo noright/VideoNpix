@@ -449,15 +449,15 @@ public class Player extends Activity {
 			video.Close();
 			handler.removeCallbacks(back);
 			if(res=="")return;
-			if(new File(where+res+".png").exists()){
-				Drawable da=new BitmapDrawable(BitmapFactory.decodeFile(where+res+".png"));
+			if(new File(where+res+".jpg").exists()){
+				Drawable da=new BitmapDrawable(BitmapFactory.decodeFile(where+res+".jpg"));
 				barcodeimg.setBackgroundDrawable(da);
 				soundPool.play(spId, 1, 1, 1, 0, 1);
 				barcodeimg.setVisibility(View.VISIBLE);
 				res="";
 				handler.postDelayed(back, 5000);
 			}else{
-				Drawable da=new BitmapDrawable(BitmapFactory.decodeFile(where+"noinformation.png"));
+				Drawable da=new BitmapDrawable(BitmapFactory.decodeFile(where+"noinformation.jpg"));
 				barcodeimg.setBackgroundDrawable(da);
 				barcodeimg.setVisibility(View.VISIBLE);
 				res="";

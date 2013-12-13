@@ -16,7 +16,7 @@ public class GlobalString {
 	public static final String Videoaxis= "/sys/class/video/axis";
 	public static final String dbPath= Environment.getExternalStorageDirectory().getPath()+"/db.txt";
 	public static int time=30;
-	public static String background=Environment.getExternalStorageDirectory().getPath()+"/barcode/background.png";
+	public static String background=Environment.getExternalStorageDirectory().getPath()+"/barcode/background.jpg";
 	
 	static public void writeFile(String file, String value){
 		File OutputFile = new File(file);

@@ -299,7 +299,7 @@ public class MainActivity extends Activity {
 			System.out.println(res);
 			if(res=="")return;	
 			if(new File(where+res+".png").exists()){
-				Drawable da=new BitmapDrawable(BitmapFactory.decodeFile(where+res+".png"));
+				Drawable da=new BitmapDrawable(BitmapFactory.decodeFile(where+res+".jpg"));
 				barcodeimg.setBackgroundDrawable(da);
 				soundPool.play(spId, 1, 1, 1, 0, 1);
 				for(int i=0;i<imgViews.length;i++)imgViews[i].setVisibility(View.INVISIBLE);
@@ -307,7 +307,7 @@ public class MainActivity extends Activity {
 				res="";					
 				handler.postDelayed(back, 5000);
 			}else{
-				Drawable da=new BitmapDrawable(BitmapFactory.decodeFile(where+"noinformation.png"));
+				Drawable da=new BitmapDrawable(BitmapFactory.decodeFile(where+"noinformation.jpg"));
 				barcodeimg.setBackgroundDrawable(da);
 				for(int i=0;i<imgViews.length;i++)imgViews[i].setVisibility(View.INVISIBLE);
 				barcodeimg.setVisibility(View.VISIBLE);
