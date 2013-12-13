@@ -1,0 +1,49 @@
+<com.JohnnyWorks.videoNpix.ARelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+     >
+
+    <com.JohnnyWorks.videoNpix.PixImageView
+        android:id="@+id/imageButton1"
+        android:layout_width="480dp"
+        android:layout_height="270dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp" />
+
+    <com.JohnnyWorks.videoNpix.PixImageView
+        android:id="@+id/imageButton2"
+        android:layout_width="480dp"
+        android:layout_height="270dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="520dp"
+        android:layout_marginTop="20dp" />
+
+    <com.JohnnyWorks.videoNpix.PixImageView
+        android:id="@+id/imageButton3"
+        android:layout_width="480dp"
+        android:layout_height="270dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="310dp" />
+
+    <com.JohnnyWorks.videoNpix.PixImageView
+        android:id="@+id/imageButton4"
+        android:layout_width="480dp"
+        android:layout_height="270dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="520dp"
+        android:layout_marginTop="310dp" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</com.JohnnyWorks.videoNpix.ARelativeLayout>

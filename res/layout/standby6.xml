@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.JohnnyWorks.videoNpix.ARelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ARelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    >
+
+    <!-- android:background="#223355" -->
+
+    <com.JohnnyWorks.videoNpix.PixImageView
+        android:id="@+id/imageButton1"
+        android:layout_width="304dp"
+        android:layout_height="252dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="38dp"
+        android:layout_marginTop="39dp" />
+
+    <com.JohnnyWorks.videoNpix.PixImageView
+        android:id="@+id/imageButton2"
+        android:layout_width="304dp"
+        android:layout_height="252dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="360dp"
+        android:layout_marginTop="39dp" />
+
+    <com.JohnnyWorks.videoNpix.PixImageView
+        android:id="@+id/imageButton3"
+        android:layout_width="304dp"
+        android:layout_height="252dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="682dp"
+        android:layout_marginTop="39dp" />
+
+    <com.JohnnyWorks.videoNpix.PixImageView
+        android:id="@+id/imageButton4"
+        android:layout_width="304dp"
+        android:layout_height="252dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="38dp"
+        android:layout_marginTop="309dp" />
+
+    <com.JohnnyWorks.videoNpix.PixImageView
+        android:id="@+id/imageButton5"
+        android:layout_width="304dp"
+        android:layout_height="252dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="360dp"
+        android:layout_marginTop="309dp" />
+
+    <com.JohnnyWorks.videoNpix.PixImageView
+        android:id="@+id/imageButton6"
+        android:layout_width="304dp"
+        android:layout_height="252dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="682dp"
+        android:layout_marginTop="309dp" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</com.JohnnyWorks.videoNpix.ARelativeLayout>

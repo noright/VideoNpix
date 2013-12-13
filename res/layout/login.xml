@@ -158,6 +158,43 @@
 	        </RadioGroup>
 	        
 	    </TableRow>
+	    
+	    	    <TableRow
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        android:layout_marginTop="15dp" >
+	
+	        <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="20dp"
+	            android:text="Self start:"
+	            android:textColor="#fff"
+	            android:textSize="15pt" />
+	
+	        <RadioGroup
+	            android:layout_gravity="center_horizontal"
+	            android:orientation="horizontal" >
+	            
+	            <RadioButton
+	                android:id="@+id/radioButton10"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:checked="true"
+	                android:text="Yes"
+	                android:textSize="15pt" />
+	
+	            <RadioButton
+	                android:id="@+id/radioButton11"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="No"
+	                android:textSize="15pt" />
+	            
+	        </RadioGroup>
+	        
+	    </TableRow>
 	</TableLayout>
 	
 	<LinearLayout

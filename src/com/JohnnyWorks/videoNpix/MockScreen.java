@@ -61,21 +61,10 @@ public class MockScreen extends Activity {
 
 	public void startMainActivity() {
 		
-//		if (isFirstStart) {
-			ZuniMachineLib.logToText("MockScr start MainActivity...", DIR_PREFIX);
-			Intent intent = new Intent(MockScreen.this, MainActivity.class);
-			overridePendingTransition(0, 0);
-//			startActivityForResult(intent, 0); 
-			startActivity(intent); 
-//			isFirstStart = false;
-//			
-//		} else {
-//			ZuniMachineLib.logToText("MockScr start Player...", DIR_PREFIX);
-//			Intent intent = new Intent(MockScreen.this, Player.class);
-//			overridePendingTransition(0, 0);
-////			startActivityForResult(intent, 0); 
-//			startActivity(intent); 
-//		}
+		ZuniMachineLib.logToText("MockScr start MainActivity...", DIR_PREFIX);
+		Intent intent = new Intent(MockScreen.this, MainActivity.class);
+		overridePendingTransition(0, 0);
+		startActivity(intent); 
 
 	}
 	
@@ -85,17 +74,7 @@ public class MockScreen extends Activity {
 		overridePendingTransition(0, 0);
 		startActivity(intent); 
 	}
-	
-//	@Override
-//	protected void onActivityResult (int requestCode, int resultCode, Intent intent) {
-//		switch (resultCode) { 
-//			case REQUEST_CLOSE:
-//				MockScreen.this.finish();
-//				break;
-//			default:
-//				break;	 
-//		}
-//	}
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -106,11 +85,7 @@ public class MockScreen extends Activity {
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		
 		ExitApplication.getInstance().addActivity(this);
-
-//		if (sysVersion >= 14)
-		// 將系統列變暗（Android 4.0使用�?
-//		getWindow().getDecorView().setSystemUiVisibility(
-//				View.SYSTEM_UI_FLAG_LOW_PROFILE);
+		HideStatusBar.enable();
 		
 		setContentView(R.layout.mock_screen);
 		
@@ -132,9 +107,7 @@ public class MockScreen extends Activity {
 							Toast.makeText(MockScreen.this,
 									R.string.sdcard_not_found,
 									Toast.LENGTH_SHORT).show();
-							// if (sysVersion >= 14)
-							// ZuniMachineLib
-							// .RootCommand(ZuniMachineLib.cmdStart_systemui);
+
 
 							MockScreen.this.finish();
 						}
@@ -157,7 +130,6 @@ public class MockScreen extends Activity {
 		} else {
 			startMainActivity();
 		}
-		// }
 	}
 
 	@Override

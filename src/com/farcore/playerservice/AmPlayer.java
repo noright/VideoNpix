@@ -149,32 +149,34 @@ public class AmPlayer {
 	}
 
 	public int Close() {
+		
 		if (mPid >= 0)
 		{
+			System.out.println("aaacc");
 			close();
 			//writeFile(Fb0Blank,"0");
 			mPid = -1;
 		}
 		return 0;
 	}
-	public int CloseAll() {
-		
-			//close();
-		
-		Log.i(TAG, "closeall");
-		writeFile(Fb0Blank,"0");
-		Log.i(TAG, "closeall0");
-		return 0;
-	}
-	public int showAll() {
-		
-			//close();
-		
-		Log.i(TAG, "closeall");
-		writeFile(Fb0Blank,"1");
-		Log.i(TAG, "closeall0");
-		return 0;
-	}
+//	public int CloseAll() {
+//		
+//			//close();
+//		
+//		Log.i(TAG, "closeall");
+//		writeFile(Fb0Blank,"0");
+//		Log.i(TAG, "closeall0");
+//		return 0;
+//	}
+//	public int showAll() {
+//		
+//			//close();
+//		
+//		Log.i(TAG, "closeall");
+//		writeFile(Fb0Blank,"1");
+//		Log.i(TAG, "closeall0");
+//		return 0;
+//	}
 	public int RegisterClientMessager(IBinder hbinder) {
 		mClient = new Messenger(hbinder);
 		return 0;

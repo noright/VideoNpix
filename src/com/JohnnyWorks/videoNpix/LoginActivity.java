@@ -20,9 +20,9 @@ public class LoginActivity extends Activity {
 	
 	private SharedPreferences preferences;
 	private Editor editor;
-	RadioButton rButton1, rButton2, rButton3, rButton4, rButton5,rButton6,rButton7,rButton8,rButton9;
+	RadioButton rButton1, rButton2, rButton3, rButton4, rButton5,rButton6,rButton7,rButton8,rButton9,rButton10,rButton11;
 	Button button1, button2;
-
+	boolean autostart;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -36,12 +36,11 @@ public class LoginActivity extends Activity {
 			finish();
 			HideStatusBar.disable();
 		}
-		
 		preferences = getSharedPreferences("config", Context.MODE_PRIVATE);
 		editor = preferences.edit();
+		autostart=preferences.getBoolean("autostart", true);
 		editor.clear().commit();
 		
-		    
 		    rButton1 = (RadioButton) findViewById(R.id.radioButton1);
 		    rButton2 = (RadioButton) findViewById(R.id.radioButton2);
 		    rButton3 = (RadioButton) findViewById(R.id.radioButton3);
@@ -51,13 +50,16 @@ public class LoginActivity extends Activity {
 		    rButton7 = (RadioButton) findViewById(R.id.radioButton7);
 		    rButton8 = (RadioButton) findViewById(R.id.radioButton8);
 		    rButton9 = (RadioButton) findViewById(R.id.radioButton9);
+		    rButton10 = (RadioButton) findViewById(R.id.radioButton10);
+		    rButton11 = (RadioButton) findViewById(R.id.radioButton11);
 		    button1 = (Button) findViewById(R.id.button1);
 		    button2 = (Button) findViewById(R.id.button2);
 		    
 		    rButton1.setChecked(true);
 		    rButton4.setChecked(true);
 		    rButton8.setChecked(true);
-		    
+		    if(autostart)rButton10.setChecked(true);
+		    else rButton11.setChecked(true);
 		    button1.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -102,7 +104,10 @@ public class LoginActivity extends Activity {
 			        	editor.putInt("time", 60);
 					    editor.commit();
 					}
-					
+					if(rButton10.isChecked())autostart=true;
+					else autostart=false;
+					editor.putBoolean("autostart", autostart);
+					editor.commit();
 					Intent intent = new Intent(LoginActivity.this, MockScreen.class);
 					startActivity(intent);
 					finish();

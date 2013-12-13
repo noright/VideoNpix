@@ -18,38 +18,16 @@ public class ZuniMachineLib {
 		"6-APPC", "7-APPC", "10-APPC", "FMT-7AT", "FMT-10AT", "7RT", "MB211", "MB222" };
 	public static final String cmdStart_systemui = "am startservice -n com.android.systemui/.SystemUIService";
 	public static final String cmdKill_systemui = "killall com.android.systemui";
-	// public static final String cmdKill_systemui =
-	// "killall com.android.systemui\nkillall com.android.systemui\nkillall com.android.systemui\nkillall com.android.systemui\nkillall com.android.systemui\nkillall com.android.systemui";
 
 	public static final Boolean debug_mode = false;
 	public static final boolean useInternalMem = false;
 	public static final boolean opt_playSingleFile = false;
 
-//	public static final String DIR_PREFIX = "/video2pix/";
-//	public static final String INTERNAL_MEM_PATH = "/mnt/flash/"; // for
-																	// 7UT/10UT
 
 	public static Boolean IsZuniMachine() {
 		if (debug_mode)
 			return true;
-//		if (!android.os.Build.PRODUCT.startsWith("mef02ref")) {
-//			Log.e(TAG, "PRODUCT not match!");
-//			return false;
-//		}
-		// if (!(android.os.Build.VERSION.INCREMENTAL.contains("eng.shuo") ||
-		// android.os.Build.VERSION.INCREMENTAL
-		// .contains("eng.edward")))
-		// {
-		// Log.e(TAG, "INCREMENTAL not match!");
-		// return false;
-		// }
 
-		// if ((android.os.Build.VERSION.INCREMENTAL.contains("eng.shuo") ||
-		// android.os.Build.VERSION.INCREMENTAL
-		// .contains("eng.edward")))
-		// {
-		// return true;
-		// }
 
 		for (int i = 0; i < modelName.length; i++) {
 			if (android.os.Build.MODEL.contains(modelName[i]))
@@ -68,7 +46,6 @@ public class ZuniMachineLib {
 		try {
 			process = Runtime.getRuntime().exec("su");
 			os = new DataOutputStream(process.getOutputStream());
-			// Log.v(TAG, "Exec command:" + command);
 			os.writeBytes(command + "\n");
 			os.writeBytes("exit\n");
 			os.flush();
@@ -91,7 +68,6 @@ public class ZuniMachineLib {
 			} catch (Exception e) {
 			}
 		}
-		// Log.d("*** DEBUG ***", "Root SUC ");
 		return null;
 	}
 
@@ -124,12 +100,3 @@ public class ZuniMachineLib {
 		}
 	}
 }
-
-// android.os.Build.DEVICE
-// mef02ref
-
-// android.os.Build.PRODUCT
-// mef02ref
-
-// android.os.Build.VERSION.INCREMENTAL
-// eng.shuo.20120914.160206

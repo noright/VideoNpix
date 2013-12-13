@@ -1,34 +1,19 @@
 package com.JohnnyWorks.videoNpix;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.JohnnyWorks.videoNpix.R;
-import com.JohnnyWorks.videoNpix.Player;
-import com.JohnnyWorks.videoNpix.ZuniMachineLib;
-import com.example.barcode.KeyCodeTable;
-import com.example.barcode.Main;
-import com.farcore.playerservice.AmPlayer;
-import com.zunidata.zunidataapi.ZunidataEnvironment;
-
-import android.R.integer;
 import android.app.Activity;
-import android.app.ActivityManager;
-import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.os.Build.VERSION;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -39,7 +24,6 @@ import android.os.PowerManager.WakeLock;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.text.TextUtils;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -47,32 +31,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
+
+import com.farcore.playerservice.AmPlayer;
+import com.farcore.playerservice.PlayerHandler;
+import com.zunidata.zunidataapi.ZunidataEnvironment;
 
 public class Player extends Activity {
 	private static final String TAG = "videoNpix";
-	private String res="";
 	private AmPlayer video = new AmPlayer();
 	boolean wantStop = false;
-	private KeyCodeTable kt=null;
 	// @Leo add 20121110-114600 start
 	private long startTime = -1;
-	private final long RESTART_DURATION = 1L * 60L * 60L * 1000L;// 1 hour
-	// @Leo add 20121110-114600 end
-	private boolean again=false;
-	private TextView screenInfo;
-	private Button startBtn;
-	private FullVideoView mVideoView;
-	private BroadcastReceiver mSDCardStateChangeListener;
-	private MediaController mediaController;
 	private WakeLock mWakeLock;
 	private String playFile = null; 
 	private int playnum = 0; 
@@ -81,11 +54,8 @@ public class Player extends Activity {
 	private String DIR_PREFIX;
 	private Boolean isRandomPlay;
 	private SharedPreferences preferences;
-	private Editor editor;
 	private File vPath = null;
-	private int sysVersion = Integer.parseInt(VERSION.SDK);
 	private int playTimes = 0;
-	private static int media_error_times = 0;
 
 	private SDCardWatcher sdCardWatcher;
 	
@@ -94,8 +64,10 @@ public class Player extends Activity {
 
 	final static int REQUEST_CLOSE = 0x02;
 	Timer timer;
-	
+	private ImageView barcodeimg;
 	private boolean can=false;
+	private SoundPool soundPool;
+	private int spId;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -105,9 +77,12 @@ public class Player extends Activity {
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		
 		ExitApplication.getInstance().addActivity(this);
+		
 
+		
 		setContentView(R.layout.activity_player);
-		kt=new KeyCodeTable();
+		barcodeimg=(ImageView) findViewById(R.id.imageView1);
+		barcodeimg.setVisibility(View.INVISIBLE);
 		preferences = getSharedPreferences("config", Context.MODE_PRIVATE);
 		playMaxLenth = preferences.getInt("pixnum", 0);
 
@@ -134,8 +109,6 @@ public class Player extends Activity {
 				}
 			});
 		}
-		mVideoView = (FullVideoView) findViewById(R.id.videoView1);
-
 		Intent intent = getIntent();
 		if (intent != null && intent.getStringExtra("playFile") != null) {
 			playFile = intent.getStringExtra("playFile");
@@ -184,23 +157,46 @@ public class Player extends Activity {
 		playTimes = 0;
 
 		logPlayTimes();
-		setPlayingFile();
-		new Timer().schedule(new TimerTask() {
-			
-
-			public void run() {
-				can=true;
-			}
-		}, 2000);
 		PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 		mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyTag");
 		mWakeLock.acquire();
+		
+		soundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 100);
+        spId = soundPool.load(this,R.raw.di, 1);
+		
 	}
-
+	@Override
+	protected void onResume() {
+		super.onResume();
+		setPlayingFile();
+		
+	}
 	private void logPlayTimes() {
 		ZuniMachineLib.logToText("PlayTimes=" + (playTimes++), DIR_PREFIX);
 	}
+	class HandlerImp extends PlayerHandler {
 
+		@Override
+		public void playMedia() {
+			logPlayTimes();
+
+			if (!TextUtils.isEmpty(playFile)) {
+				playFile = null;
+			}
+			if (isRandomPlay) {
+				playedMark[playnum] = true;
+				int tmpPlaynum = 0;
+				do {
+					tmpPlaynum = (int) (Math.random() * playMaxLenth);
+				} while (tmpPlaynum == playnum || checkPlayedMark(tmpPlaynum));
+				playnum = tmpPlaynum;
+			} else {
+				playnum++;
+			}			
+			setPlayingFile();
+		}		
+	}
+	
 	private void setPlayingFile() {
 		try {
 			if (!ZuniMachineLib.useInternalMem) {
@@ -217,9 +213,8 @@ public class Player extends Activity {
 
 
 			if (!TextUtils.isEmpty(playFile) && (new File(playFile)).exists()) {
-				
 				video.Init();
-				video.RegisterClientMessager(p_msg.getBinder());
+				video.RegisterClientMessager(new Messenger(new HandlerImp()).getBinder());
 				video.Open(playFile);
 				video.Play();
 				
@@ -241,19 +236,14 @@ public class Player extends Activity {
 					filePath = vPath.getAbsolutePath() + "/" + (playnum + 1)
 							+ ".mp4";
 				}
-
 				video.Init();
-				video.RegisterClientMessager(p_msg.getBinder());
+				video.RegisterClientMessager(new Messenger(new HandlerImp()).getBinder());
 				video.Open(filePath);
 				video.Play();
-				
-//				mVideoView.setVideoPath(filePath);
-//				mVideoView.setVisibility(View.VISIBLE);
-//				// mVideoView.setMediaController(mediaController);
+
 				ZuniMachineLib.logToText("Start looping video {" + filePath
 						+ "}", DIR_PREFIX);
-//				mVideoView.requestFocus();
-//				mVideoView.start();
+
 			}
 
 		} catch (Exception e) {
@@ -282,37 +272,15 @@ public class Player extends Activity {
 		return playedMark[playnum];
 	}
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-	}
+	
 
 
 	
 	@Override
 	protected void onPause() {
 		super.onPause();
-		wantStop = true;
 		video.Close();
-		video.CloseAll();
 	}
-
-	@Override
-	public void onBackPressed() {
-		
-		Intent intent = new Intent(Player.this, MainActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-		ZuniMachineLib.logToText("Intent to MainActivity...", DIR_PREFIX);
-		overridePendingTransition(0, 0);
-		intent.putExtra("firstStart", "false");
-		startActivity(intent);
-		
-		video.Close();
-		video.CloseAll();
-		Player.this.finish();
-	}
-
-
 
 	@Override
 	protected void onDestroy() {
@@ -324,65 +292,20 @@ public class Player extends Activity {
 			mWakeLock = null;
 		}
 		video.Close();
-		video.CloseAll();
 		super.onDestroy();
 	}
-
 	@Override
-	public boolean dispatchTouchEvent(MotionEvent event) {
-		switch (event.getAction()) {
-		case MotionEvent.ACTION_DOWN:
-			Log.i(TAG, "Touch Down");
-
-			if (event.getX() <= 50 && event.getY() <= 50) {
-				timer = new Timer();
-				timer.schedule(new TimerTask() {
-					@Override
-					public void run() {
-						Log.i(TAG, "Long-press catched, apk will shutdown.");
-						// Intent intent = new Intent(Player.this, Start.class);
-						// setResult(REQUEST_CLOSE, intent);
-						// Player.this.finish();
-						
-						wantStop = true;
-						video.Close();
-						video.CloseAll();
-						
-//						Intent intent = new Intent(Intent.ACTION_MAIN);
-//						intent.addCategory(Intent.CATEGORY_HOME);
-//						intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//						startActivity(intent);
-//						android.os.Process.killProcess(android.os.Process.myPid());
-						
-//						ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-//						am.forceStopPackage(getPackageName());
-						
-						HideStatusBar.disable();
-						ExitApplication.getInstance().exit(Player.this);
-
-					}
-				}, 5000);
-			}
-			break;
-
-		case MotionEvent.ACTION_UP:
-			Log.i(TAG, "Touch Up");
-			if (timer != null) {
-				timer.cancel();
-			}
-			onBackPressed();
-			break;
-
-		case MotionEvent.ACTION_MOVE:
-			Log.i(TAG, "Touch Move");
-			if (timer != null && (event.getX() > 50 || event.getY() > 50)) {
-				timer.cancel();
-			}
-			break;
-		}
-		return true;
-
+	public void onBackPressed() {
+		System.out.println("aaabb");
+		Intent intent = new Intent(Player.this, MainActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+		ZuniMachineLib.logToText("Intent to MainActivity...", DIR_PREFIX);
+		overridePendingTransition(0, 0);
+		intent.putExtra("firstStart", "false");
+		startActivity(intent);	
+		Player.this.finish();
 	}
+
 
 
 
@@ -423,13 +346,6 @@ public class Player extends Activity {
 		if (mBrightnessToast == null) {
 			mBrightnessToast = createToast(R.string.brightness, 255);
 		}
-
-//		ViewGroup layout = (ViewGroup) mBrightnessToast.getView();
-//		ProgressBar progress = (ProgressBar) layout.getChildAt(layout
-//				.getChildCount() - 1);
-//		progress.setIndeterminate(false);
-//		progress.setProgress(brightness);
-//		mBrightnessToast.show();
 	}
 
 	private void adjustVolume(int offset) {
@@ -458,12 +374,6 @@ public class Player extends Activity {
 		if (mSoundToast == null) {
 			mSoundToast = createToast(R.string.volume, (int) max);
 		}
-
-//		ViewGroup layout = (ViewGroup) mSoundToast.getView();
-//		ProgressBar progress = (ProgressBar) layout.getChildAt(layout
-//				.getChildCount() - 1);
-//		progress.setProgress((int) current);
-//		mSoundToast.show();
 	}
 
 	private Toast createToast(String text, int max) {
@@ -487,66 +397,90 @@ public class Player extends Activity {
 	private Toast createToast(int resid, int max) {
 		return createToast(this.getResources().getString(resid), max);
 	}
-
-	// -------------------------------------------------------------------
 	
-	private Messenger p_msg =new Messenger(new Handler(){
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		
+		switch (event.getAction()) {
+		case MotionEvent.ACTION_UP:
+			Log.i(TAG, "Touch Up");
+			if (timer != null) {
+				timer.cancel();
+			}
+			
+			System.out.println("==="+barcodeimg.isShown());
+			if(barcodeimg.isShown()==false){
+				handler.removeCallbacks(back);
+				video.Close();
+				onBackPressed();
+				return true;
+			}
+			video.Close();
+			handler.removeCallbacks(back);
+			handler.sendEmptyMessage(1234);
+			
+		}
+		return true;
+	}
+	
+	
+	final Handler handler=new Handler(){
+
 		@Override
 		public void handleMessage(Message msg) {
-		switch(msg.what){
-			case 1001:
-				switch (msg.arg1) {	
-				case 0x20006:
-					writeFile(GlobalString.Fb0Blank, "1");
-					writeFile(GlobalString.Fb1Blank, "1");
-					writeFile(GlobalString.Videoaxis, "0 0 0 0");
-					break;
-				case 0x30004:	
-					if (wantStop) {
-						wantStop = false;
-						break;
-					}
-					video.Close();
-					video.CloseAll();
-					
-					logPlayTimes();
-
-					if (!TextUtils.isEmpty(playFile)) {
-						playFile = null;
-					}
-					mVideoView.setVisibility(View.GONE);
-
-					if (isRandomPlay) {
-						playedMark[playnum] = true;
-						int tmpPlaynum = 0;
-						do {
-							tmpPlaynum = (int) (Math.random() * playMaxLenth);
-						} while (tmpPlaynum == playnum || checkPlayedMark(tmpPlaynum));
-						playnum = tmpPlaynum;
-					} else {
-						playnum++;
-					}
-					
-					setPlayingFile();
-				}
-				
-			case 1003:
-
-				Log.e("", "Tony shit!!!   " + msg.arg2);
-				
-				if (msg.arg2 != 0) {
-					wantStop = true;
-					video.Close();
-					video.CloseAll();
-					finish();
-				}
+			if(msg.what==1234){
+				barcodeimg.setVisibility(View.INVISIBLE);
+				setPlayingFile();
 			}
 		}
-	});	
+		
+	};
+	
+	Runnable back=new Runnable() {
+		
+		@Override
+		public void run() {
+			handler.sendEmptyMessage(1234);
+		}
+	};
+	Barcode barcode=new Barcode("/sdcard/barcode/",this) {	
+		@Override
+		void showPic() {
+			video.Close();
+			handler.removeCallbacks(back);
+			if(res=="")return;
+			if(new File(where+res+".png").exists()){
+				Drawable da=new BitmapDrawable(BitmapFactory.decodeFile(where+res+".png"));
+				barcodeimg.setBackgroundDrawable(da);
+				soundPool.play(spId, 1, 1, 1, 0, 1);
+				barcodeimg.setVisibility(View.VISIBLE);
+				res="";
+				handler.postDelayed(back, 5000);
+			}else{
+				Drawable da=new BitmapDrawable(BitmapFactory.decodeFile(where+"noinformation.png"));
+				barcodeimg.setBackgroundDrawable(da);
+				barcodeimg.setVisibility(View.VISIBLE);
+				res="";
+				handler.postDelayed(back, 5000);
+			}			
+		}
+	};
+	
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		switch(keyCode){
+		case KeyEvent.KEYCODE_DPAD_DOWN:
+		case KeyEvent.KEYCODE_DPAD_UP:
+		case KeyEvent.KEYCODE_DPAD_LEFT:
+		case KeyEvent.KEYCODE_DPAD_RIGHT:
+			return false;
+		}
+		barcode.show(keyCode);
+		return true;
+	}
 	
 //--------------------------------------------------------------------
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (event.getAction() == KeyEvent.ACTION_DOWN) {
+	public boolean onKeyUp(int keyCode, KeyEvent event) {
+		if (event.getAction() == KeyEvent.ACTION_UP) {
 			switch (event.getKeyCode()) {
 			case KeyEvent.KEYCODE_DPAD_DOWN:
 				adjustBrightness(-1);
@@ -561,51 +495,9 @@ public class Player extends Activity {
 				adjustVolume(1);
 				return true;
 			default:
-//				onBackPressed();
-			}
-		}
-		if(keyCode==155||keyCode==156)
-			res=res+'\t';
-		else if(keyCode==66){
-			if(res=="")return true;
-			System.out.println(res);
-			Intent intent =new Intent(Player.this, Main.class);
-			intent.putExtra("res", res);
-			intent.putExtra("from", "play");
-			intent.putExtra("videoPos", playnum);
-			res="";			
-			again=true;
-			video.CloseAll();
-			startActivity(intent);
-			ExitApplication.getInstance().exit(Player.this);
-	//		finish();
-			
-		}else if(kt.getChar(keyCode)==' ')
-				;
-			else
-				res=res+new KeyCodeTable().getChar(keyCode);	
-	
-		return super.onKeyDown(keyCode, event);
-	}
-/////////////////////////////////////////////////////////////////////////
-	private void writeFile(String file, String value){
-		File OutputFile = new File(file);
-		if(!OutputFile.exists()) {        	
-        	return;
-        }
 
-    	try {
-			BufferedWriter out = new BufferedWriter(new FileWriter(OutputFile), 32);
-    		try {
-				Log.d("", "----------------set" + file + ": " + value);
-    			out.write(value);    
-    		} 
-			finally {
-				out.close();
 			}
 		}
-		catch (IOException e) {
-			Log.e("", "IOException when write "+OutputFile);
-		}
+		return false;
 	}
 }

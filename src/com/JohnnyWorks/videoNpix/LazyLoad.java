@@ -41,7 +41,7 @@ public class LazyLoad {
 		new Thread(){
 			public void run(){
 				BitmapFactory.Options opts=new BitmapFactory.Options();
-				opts.inSampleSize=2;
+				opts.inSampleSize=1;
 				Bitmap bitmap=null;
 				String path=null;
 				if(new File(imagePath).exists()){
@@ -57,8 +57,8 @@ public class LazyLoad {
 					bitmap=BitmapFactory.decodeFile(imagePath, opts);
 				}
 				
-				
-				bitmap=getRoundedCornerBitmap(bitmap, (float) 0.05);
+			//TODO	
+			//	bitmap=getRoundedCornerBitmap(bitmap, (float) 0.05);
 			//	bitmap=createReflectionImageWithOrigin(bitmap);
 				Message message=handler.obtainMessage(0, bitmap);
 				handler.sendMessage(message);						
