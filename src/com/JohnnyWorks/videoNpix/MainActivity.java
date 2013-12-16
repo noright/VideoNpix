@@ -298,7 +298,7 @@ public class MainActivity extends Activity {
 			handler.removeCallbacks(back);
 			System.out.println(res);
 			if(res=="")return;	
-			if(new File(where+res+".png").exists()){
+			if(new File(where+res+".jpg").exists()){
 				Drawable da=new BitmapDrawable(BitmapFactory.decodeFile(where+res+".jpg"));
 				barcodeimg.setBackgroundDrawable(da);
 				soundPool.play(spId, 1, 1, 1, 0, 1);
