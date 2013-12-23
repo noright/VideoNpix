@@ -9,6 +9,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -44,7 +45,6 @@ public class Player extends Activity {
 	private static final String TAG = "videoNpix";
 	private AmPlayer video = new AmPlayer();
 	boolean wantStop = false;
-	// @Leo add 20121110-114600 start
 	private long startTime = -1;
 	private WakeLock mWakeLock;
 	private String playFile = null; 
@@ -163,7 +163,7 @@ public class Player extends Activity {
 		
 		soundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 100);
         spId = soundPool.load(this,R.raw.di, 1);
-		
+        onConfigurationChanged(getResources().getConfiguration());
 	}
 	@Override
 	protected void onResume() {
@@ -296,7 +296,6 @@ public class Player extends Activity {
 	}
 	@Override
 	public void onBackPressed() {
-		System.out.println("aaabb");
 		Intent intent = new Intent(Player.this, MainActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 		ZuniMachineLib.logToText("Intent to MainActivity...", DIR_PREFIX);
@@ -407,8 +406,6 @@ public class Player extends Activity {
 			if (timer != null) {
 				timer.cancel();
 			}
-			
-			System.out.println("==="+barcodeimg.isShown());
 			if(barcodeimg.isShown()==false){
 				handler.removeCallbacks(back);
 				video.Close();
@@ -443,9 +440,10 @@ public class Player extends Activity {
 			handler.sendEmptyMessage(1234);
 		}
 	};
-	Barcode barcode=new Barcode("/sdcard/barcode/",this) {	
+	Barcode barcode=new Barcode(GlobalString.sdcard+"/barcode/",this) {	
 		@Override
 		void showPic() {
+			res=res.substring(1, 13);
 			video.Close();
 			handler.removeCallbacks(back);
 			if(res=="")return;
@@ -479,25 +477,45 @@ public class Player extends Activity {
 	}
 	
 //--------------------------------------------------------------------
-	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		if (event.getAction() == KeyEvent.ACTION_UP) {
-			switch (event.getKeyCode()) {
-			case KeyEvent.KEYCODE_DPAD_DOWN:
-				adjustBrightness(-1);
-				return true;
-			case KeyEvent.KEYCODE_DPAD_UP:
-				adjustBrightness(1);
-				return true;
-			case KeyEvent.KEYCODE_DPAD_LEFT:
-				adjustVolume(-1);
-				return true;
-			case KeyEvent.KEYCODE_DPAD_RIGHT:
-				adjustVolume(1);
-				return true;
-			default:
-
-			}
+//	public boolean onKeyUp(int keyCode, KeyEvent event) {
+//		if (event.getAction() == KeyEvent.ACTION_UP) {
+//			switch (event.getKeyCode()) {
+//			case KeyEvent.KEYCODE_DPAD_DOWN:
+//				adjustBrightness(-1);
+//				return true;
+//			case KeyEvent.KEYCODE_DPAD_UP:
+//				adjustBrightness(1);
+//				return true;
+//			case KeyEvent.KEYCODE_DPAD_LEFT:
+//				adjustVolume(-1);
+//				return true;
+//			case KeyEvent.KEYCODE_DPAD_RIGHT:
+//				adjustVolume(1);
+//				return true;
+//			default:
+//			}
+//		}
+//		return false;
+//	}
+	WindowManager mWindowManager;
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		mWindowManager=getWindowManager();
+		int getRotation = mWindowManager.getDefaultDisplay().getRotation();
+		switch(getRotation){
+		case 0:
+			GlobalString.writeFile(GlobalString.videoangle, "3 0 1 2");			
+			break;
+		case 1:
+			GlobalString.writeFile(GlobalString.videoangle, "0 1 2 3");			
+			break;
+		case 2:
+			GlobalString.writeFile(GlobalString.videoangle, "1 2 3 0");			
+			break;
+		case 3:			
+			GlobalString.writeFile(GlobalString.videoangle, "2 3 0 1");
+			break;
 		}
-		return false;
+		super.onConfigurationChanged(newConfig);
 	}
 }

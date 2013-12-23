@@ -3,11 +3,13 @@ package com.JohnnyWorks.videoNpix;
 import com.JohnnyWorks.videoNpix.R;
 import com.JohnnyWorks.videoNpix.HideStatusBar;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -25,13 +27,13 @@ public class LoginActivity extends Activity {
 	boolean autostart;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setContentView(R.layout.login);
-		
+		onConfigurationChanged(getResources().getConfiguration());
+//		setContentView(R.layout.login_p);
+//		
 		if (!ZuniMachineLib.IsZuniMachine()) {
 			finish();
 			HideStatusBar.disable();
@@ -39,8 +41,7 @@ public class LoginActivity extends Activity {
 		preferences = getSharedPreferences("config", Context.MODE_PRIVATE);
 		editor = preferences.edit();
 		autostart=preferences.getBoolean("autostart", true);
-		editor.clear().commit();
-		
+		editor.clear().commit();		
 		    rButton1 = (RadioButton) findViewById(R.id.radioButton1);
 		    rButton2 = (RadioButton) findViewById(R.id.radioButton2);
 		    rButton3 = (RadioButton) findViewById(R.id.radioButton3);
@@ -114,30 +115,28 @@ public class LoginActivity extends Activity {
 					
 				}
 			});
-			
+			HideStatusBar.enable();
 	}
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		HideStatusBar.enable();
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-
-	}
 
 	@Override
 	public void onBackPressed() {
 	}
 
+
+	@SuppressLint("NewApi")
 	@Override
-	protected void onDestroy() {
-		super.onDestroy();
+	public void onConfigurationChanged(Configuration newConfig) {		
+		switch(newConfig.orientation){
+		case Configuration.ORIENTATION_PORTRAIT:
+			setContentView(R.layout.login_l);
+			break;
+		case Configuration.ORIENTATION_LANDSCAPE:
+			setContentView(R.layout.login_p);
+			break;
+		}
+		super.onConfigurationChanged(newConfig);
 	}
-	
 
 
 }

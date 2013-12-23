@@ -4,9 +4,13 @@ import java.io.File;
 import java.util.Timer;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -55,6 +59,7 @@ public class MainActivity extends Activity {
 	private int spId;
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		
+		System.out.println("===oncreat");
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);		
@@ -65,20 +70,7 @@ public class MainActivity extends Activity {
 		DIR_PREFIX = "/video" + playMaxLenth + "pix/";
 		soundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 100);
         spId = soundPool.load(this,R.raw.di, 1);
-	
-	}
-	
-	@Override
-	protected void onResume() {
-		
-        if (playMaxLenth == 2) {
-        	setContentView(R.layout.standby2);
-        } else if (playMaxLenth == 4) {
-        	setContentView(R.layout.standby4);
-        } else if(playMaxLenth == 6) {
-        	setContentView(R.layout.standby6);
-        } 
-
+        onConfigurationChanged(getResources().getConfiguration());
 		if (!ZuniMachineLib.useInternalMem) {
 			sdCardWatcher = new SDCardWatcher();
 			sdCardWatcher.registerSDCardStateChangeListener(this,
@@ -95,13 +87,7 @@ public class MainActivity extends Activity {
 					});
 
 		}
-		if(new File(GlobalString.background).exists()){
-			System.out.println("=======111");
-			ARelativeLayout background=(ARelativeLayout) findViewById(R.id.ARelativeLayout1);
-			Bitmap bt=BitmapFactory.decodeFile(GlobalString.background);
-			Drawable bb=new BitmapDrawable(bt);
-			background.setBackgroundDrawable(bb);
-		}
+		
 		
 		imgViews =  new ImageButton[playMaxLenth];
 		barcodeimg=(ImageView) findViewById(R.id.imageView1);
@@ -117,8 +103,13 @@ public class MainActivity extends Activity {
         	imgViews[4] = (ImageButton) findViewById(R.id.imageButton5);
         	imgViews[5] = (ImageButton) findViewById(R.id.imageButton6);
         	
-        } 
-       
+        }
+	}
+	
+	@Override
+	protected void onResume() {
+		 
+		System.out.println("===onre");
 				
 		readStrFromSD();
 		if (idleTimer == null) {
@@ -127,17 +118,16 @@ public class MainActivity extends Activity {
        
 		if (idleTimer != null) {
 			delayScrSaver = false;
-			idleTimer.stopTimer();
-			idleTimer.startTimer();
+			//TODO
+//			idleTimer.stopTimer();
+//			idleTimer.startTimer();
 		}
 		ZuniMachineLib.logToText("MainAct is active.", DIR_PREFIX);
 		super.onResume();
 	}
 
 	private void readStrFromSD() {
-		try {
-			
-			System.out.println("iamhere");
+//		try {
 			if (ZuniMachineLib.useInternalMem) {
 				vPath = new File(ZunidataEnvironment.getInternalStoragePath()
 						+ DIR_PREFIX );
@@ -157,44 +147,42 @@ public class MainActivity extends Activity {
 			}
 			vPath.mkdirs();
 			Log.v(TAG, "Reading data from " + vPath.getAbsolutePath());
-			if (vPath.exists()) {
-
-
-				if ((new File(vPath.getAbsolutePath() + "/index.html"))
-						.exists()) {
-					Log.v(TAG, "found custom html file! use it.");
-					webView.loadUrl("file://" + vPath.getAbsolutePath()
-							+ "/index.html");
-					webView.setBackgroundColor(Color.TRANSPARENT);
-					webView.setBackgroundDrawable(null);
-					webView.setBackgroundResource(0);
-					WebSettings websettings = webView.getSettings();
-					websettings.setSupportZoom(false);
-					websettings.setBuiltInZoomControls(false);
-					websettings.setJavaScriptEnabled(false);
-				
-
-					webView.setWebViewClient(new WebViewClient() {
-						@Override
-						public boolean shouldOverrideUrlLoading(WebView view,
-								String url) {
-							
-
-							if (url.startsWith(URL_PREFIX)) {
-								IntentToPlayer(vPath.getAbsolutePath() + "/"
-										+ url.replace(URL_PREFIX, ""));
-								return true;
-							}
-
-							return false;
-						}
-
-					});
-
-					lay01.setVisibility(View.GONE);
-					lay02.setVisibility(View.GONE);
-					webView.setVisibility(View.VISIBLE);
-				} else {	
+//			if (vPath.exists()) {
+//				if ((new File(vPath.getAbsolutePath() + "/index.html"))
+//						.exists()) {
+//					Log.v(TAG, "found custom html file! use it.");
+//					webView.loadUrl("file://" + vPath.getAbsolutePath()
+//							+ "/index.html");
+//					webView.setBackgroundColor(Color.TRANSPARENT);
+//					webView.setBackgroundDrawable(null);
+//					webView.setBackgroundResource(0);
+//					WebSettings websettings = webView.getSettings();
+//					websettings.setSupportZoom(false);
+//					websettings.setBuiltInZoomControls(false);
+//					websettings.setJavaScriptEnabled(false);
+//				
+//
+//					webView.setWebViewClient(new WebViewClient() {
+//						@Override
+//						public boolean shouldOverrideUrlLoading(WebView view,
+//								String url) {
+//							
+//
+//							if (url.startsWith(URL_PREFIX)) {
+//								IntentToPlayer(vPath.getAbsolutePath() + "/"
+//										+ url.replace(URL_PREFIX, ""));
+//								return true;
+//							}
+//
+//							return false;
+//						}
+//
+//					});
+//
+//					lay01.setVisibility(View.GONE);
+//					lay02.setVisibility(View.GONE);
+//					webView.setVisibility(View.VISIBLE);
+//				} else {	
 					
 					File ff=new File(vPath.getAbsolutePath()+"/thumbnail");
 					if(!(ff.exists()))
@@ -207,12 +195,18 @@ public class MainActivity extends Activity {
 						imgViews[i].setTag(vPath.getAbsolutePath()
 								+ "/" + (i + 1) + ".mp4");
 					}
-				}
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+					if(new File(GlobalString.background).exists()){
+						ARelativeLayout background=(ARelativeLayout) findViewById(R.id.ARelativeLayout1);
+						Bitmap bt=BitmapFactory.decodeFile(GlobalString.background);
+						Drawable bb=new BitmapDrawable(bt);
+						background.setBackgroundDrawable(bb);
+					}
+//				}
+//			}
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		return;
 	}
 	
@@ -255,6 +249,7 @@ public class MainActivity extends Activity {
 	
 	@Override
 	protected void onPause() {
+		System.out.println("===onpau");
 		if (idleTimer != null) {
 			idleTimer.stopTimer();
 			idleTimer = null;
@@ -264,6 +259,7 @@ public class MainActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
+		System.out.println("===ondes");
 		if (sdCardWatcher != null)
 			sdCardWatcher.unRegisterSDCardStateChangeListener(this);
 		super.onDestroy();
@@ -281,8 +277,7 @@ public class MainActivity extends Activity {
 				for(int i=0;i<imgViews.length;i++)imgViews[i].setVisibility(View.VISIBLE);
 			}
 				
-		}
-		
+		}		
 	};
 	
 	Runnable back=new Runnable() {
@@ -292,12 +287,15 @@ public class MainActivity extends Activity {
 			handler.sendEmptyMessage(1234);					
 		}
 	};
-	Barcode barcode=new Barcode("/sdcard/barcode/",this) {	
+	Context c=this;
+	Barcode barcode=new Barcode(GlobalString.sdcard+"/barcode/",this) {	
 		@Override
 		void showPic() {
+			res=res.substring(1, 13);
+
 			handler.removeCallbacks(back);
-			System.out.println(res);
-			if(res=="")return;	
+			
+			if(res=="")return;
 			if(new File(where+res+".jpg").exists()){
 				Drawable da=new BitmapDrawable(BitmapFactory.decodeFile(where+res+".jpg"));
 				barcodeimg.setBackgroundDrawable(da);
@@ -332,5 +330,29 @@ public class MainActivity extends Activity {
 		idleTimer.resetTimer(-1);
 		barcode.show(keyCode);
 		return true;
+	}
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		switch(newConfig.orientation){		
+		case Configuration.ORIENTATION_PORTRAIT:
+			 if (playMaxLenth == 2) {
+		        	setContentView(R.layout.standby2_p);
+		        } else if (playMaxLenth == 4) {
+		        	setContentView(R.layout.standby4_p);
+		        } else if(playMaxLenth == 6) {
+		        	setContentView(R.layout.standby6_p);
+		        } 
+			break;
+		case Configuration.ORIENTATION_LANDSCAPE:
+			 if (playMaxLenth == 2) {
+		        	setContentView(R.layout.standby2_l);
+		        } else if (playMaxLenth == 4) {
+		        	setContentView(R.layout.standby4_l);
+		        } else if(playMaxLenth == 6) {
+		        	setContentView(R.layout.standby6_l);
+		        } 
+			break;
+		}
+		super.onConfigurationChanged(newConfig);
 	}
 }

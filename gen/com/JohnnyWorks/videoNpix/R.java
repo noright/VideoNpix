@@ -49,11 +49,15 @@ public final class R {
         public static final int activity_main0=0x7f030000;
         public static final int activity_player=0x7f030001;
         public static final int loading=0x7f030002;
-        public static final int login=0x7f030003;
-        public static final int mock_screen=0x7f030004;
-        public static final int standby2=0x7f030005;
-        public static final int standby4=0x7f030006;
-        public static final int standby6=0x7f030007;
+        public static final int login_l=0x7f030003;
+        public static final int login_p=0x7f030004;
+        public static final int mock_screen=0x7f030005;
+        public static final int standby2_l=0x7f030006;
+        public static final int standby2_p=0x7f030007;
+        public static final int standby4_l=0x7f030008;
+        public static final int standby4_p=0x7f030009;
+        public static final int standby6_l=0x7f03000a;
+        public static final int standby6_p=0x7f03000b;
     }
     public static final class menu {
         public static final int activity_main=0x7f070000;

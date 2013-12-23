@@ -93,8 +93,6 @@ public class MockScreen extends Activity {
 		DIR_PREFIX = "/video" + preferences.getInt("pixnum", 0) + "pix/";
 		
 		GlobalString.time=preferences.getInt("time", 30);
-		
-		System.out.println(GlobalString.time);
 		if (!ZuniMachineLib.IsZuniMachine()) {
 			finish();
 		}
