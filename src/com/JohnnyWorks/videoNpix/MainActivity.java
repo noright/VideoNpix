@@ -119,8 +119,8 @@ public class MainActivity extends Activity {
 		if (idleTimer != null) {
 			delayScrSaver = false;
 			//TODO
-//			idleTimer.stopTimer();
-//			idleTimer.startTimer();
+			idleTimer.stopTimer();
+			idleTimer.startTimer();
 		}
 		ZuniMachineLib.logToText("MainAct is active.", DIR_PREFIX);
 		super.onResume();
@@ -291,8 +291,8 @@ public class MainActivity extends Activity {
 	Barcode barcode=new Barcode(GlobalString.sdcard+"/barcode/",this) {	
 		@Override
 		void showPic() {
-			res=res.substring(1, 13);
-
+			//res=res.substring(1, 13);
+			System.out.println(res);
 			handler.removeCallbacks(back);
 			
 			if(res=="")return;
@@ -327,6 +327,13 @@ public class MainActivity extends Activity {
 		return false;
 	}
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		switch(keyCode){
+		case KeyEvent.KEYCODE_DPAD_DOWN:
+		case KeyEvent.KEYCODE_DPAD_UP:
+		case KeyEvent.KEYCODE_DPAD_LEFT:
+		case KeyEvent.KEYCODE_DPAD_RIGHT:
+			return false;
+		}
 		idleTimer.resetTimer(-1);
 		barcode.show(keyCode);
 		return true;

@@ -3,7 +3,6 @@ package com.JohnnyWorks.videoNpix;
 import com.JohnnyWorks.videoNpix.R;
 import com.JohnnyWorks.videoNpix.HideStatusBar;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -124,7 +123,6 @@ public class LoginActivity extends Activity {
 	}
 
 
-	@SuppressLint("NewApi")
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {		
 		switch(newConfig.orientation){

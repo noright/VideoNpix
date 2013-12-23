@@ -443,7 +443,7 @@ public class Player extends Activity {
 	Barcode barcode=new Barcode(GlobalString.sdcard+"/barcode/",this) {	
 		@Override
 		void showPic() {
-			res=res.substring(1, 13);
+		//	res=res.substring(1, 13);
 			video.Close();
 			handler.removeCallbacks(back);
 			if(res=="")return;

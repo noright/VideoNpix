@@ -169,7 +169,7 @@
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_marginLeft="20dp"
-	            android:text="Self start:"
+	            android:text="@string/selfstart"
 	            android:textColor="#fff"
 	            android:textSize="15pt" />
 	
@@ -182,14 +182,14 @@
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                android:checked="true"
-	                android:text="Yes"
+	                android:text="@string/yes"
 	                android:textSize="15pt" />
 	
 	            <RadioButton
 	                android:id="@+id/radioButton11"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
-	                android:text="No"
+	                android:text="@string/no"
 	                android:textSize="15pt" />
 	            
 	        </RadioGroup>
