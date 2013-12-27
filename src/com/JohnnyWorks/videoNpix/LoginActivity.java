@@ -125,14 +125,14 @@ public class LoginActivity extends Activity {
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {		
-		switch(newConfig.orientation){
-		case Configuration.ORIENTATION_PORTRAIT:
-			setContentView(R.layout.login_l);
-			break;
-		case Configuration.ORIENTATION_LANDSCAPE:
+		//switch(newConfig.orientation){
+		//case Configuration.ORIENTATION_PORTRAIT:
+		//	setContentView(R.layout.login_l);
+		//	break;
+		//case Configuration.ORIENTATION_LANDSCAPE:
 			setContentView(R.layout.login_p);
-			break;
-		}
+		//	break;
+	//	}
 		super.onConfigurationChanged(newConfig);
 	}
 
