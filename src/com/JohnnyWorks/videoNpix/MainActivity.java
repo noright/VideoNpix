@@ -288,21 +288,22 @@ public class MainActivity extends Activity {
 		}
 	};
 	Context c=this;
-	Barcode barcode=new Barcode(GlobalString.sdcard+"/barcode/",this) {	
+	Barcode barcode=new Barcode(GlobalString.sdcard+"/",this) {	
 		@Override
 		void showPic() {
-			//res=res.substring(1, 13);
+			String pic=where+"barcode/"+GlobalString.orientation+"/"+res+".jpg";
+			System.out.println("==="+pic);
 			System.out.println(res);
 			handler.removeCallbacks(back);
 			
 			if(res=="")return;
-			if(new File(where+res+".jpg").exists()){
-				Drawable da=new BitmapDrawable(BitmapFactory.decodeFile(where+res+".jpg"));
+			if(new File(pic).exists()){
+				Drawable da=new BitmapDrawable(BitmapFactory.decodeFile(pic));
 				barcodeimg.setBackgroundDrawable(da);
 				soundPool.play(spId, 1, 1, 1, 0, 1);
 				for(int i=0;i<imgViews.length;i++)imgViews[i].setVisibility(View.INVISIBLE);
 				barcodeimg.setVisibility(View.VISIBLE);
-				res="";					
+				res="";				
 				handler.postDelayed(back, 5000);
 			}else{
 				Drawable da=new BitmapDrawable(BitmapFactory.decodeFile(where+"noinformation.jpg"));
@@ -342,6 +343,7 @@ public class MainActivity extends Activity {
 	public void onConfigurationChanged(Configuration newConfig) {
 		switch(newConfig.orientation){		
 		case Configuration.ORIENTATION_PORTRAIT:
+			GlobalString.orientation="PORTRAIT";
 			 if (playMaxLenth == 2) {
 		        	setContentView(R.layout.standby2_p);
 		        } else if (playMaxLenth == 4) {
@@ -351,6 +353,7 @@ public class MainActivity extends Activity {
 		        } 
 			break;
 		case Configuration.ORIENTATION_LANDSCAPE:
+			GlobalString.orientation="LANDSCAPE";
 			 if (playMaxLenth == 2) {
 		        	setContentView(R.layout.standby2_l);
 		        } else if (playMaxLenth == 4) {

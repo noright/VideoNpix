@@ -20,6 +20,7 @@ public class GlobalString {
 	public static int time=30;	
 	public static String sdcard=ZunidataEnvironment.External_Storage_Path;
 	public static String background=sdcard+"/barcode/background.jpg";
+	public static String orientation="LANDSCAPE";
 	static public void writeFile(String file, String value){
 		File OutputFile = new File(file);
 		if(!OutputFile.exists()) {        	

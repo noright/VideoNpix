@@ -79,6 +79,7 @@ public final class R {
         public static final int loading=0x7f050002;
         public static final int login_title=0x7f050006;
         public static final int menu_settings=0x7f050001;
+        public static final int no=0x7f05001b;
         public static final int ok=0x7f05000e;
         public static final int order_random=0x7f05000c;
         public static final int order_sequential=0x7f05000d;
@@ -88,11 +89,13 @@ public final class R {
         public static final int pixnum_6=0x7f05000a;
         public static final int playorder=0x7f05000b;
         public static final int sdcard_not_found=0x7f050003;
+        public static final int selfstart=0x7f050019;
         public static final int sixty=0x7f050017;
         public static final int thirty=0x7f050016;
         public static final int three=0x7f050014;
         public static final int volume=0x7f050005;
         public static final int waiting=0x7f050018;
+        public static final int yes=0x7f05001a;
     }
     public static final class style {
         public static final int AppTheme=0x7f060000;
