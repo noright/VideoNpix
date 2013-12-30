@@ -118,7 +118,6 @@ public class MainActivity extends Activity {
        
 		if (idleTimer != null) {
 			delayScrSaver = false;
-			//TODO
 			idleTimer.stopTimer();
 			idleTimer.startTimer();
 		}
@@ -146,51 +145,12 @@ public class MainActivity extends Activity {
 
 			}
 			vPath.mkdirs();
-			Log.v(TAG, "Reading data from " + vPath.getAbsolutePath());
-//			if (vPath.exists()) {
-//				if ((new File(vPath.getAbsolutePath() + "/index.html"))
-//						.exists()) {
-//					Log.v(TAG, "found custom html file! use it.");
-//					webView.loadUrl("file://" + vPath.getAbsolutePath()
-//							+ "/index.html");
-//					webView.setBackgroundColor(Color.TRANSPARENT);
-//					webView.setBackgroundDrawable(null);
-//					webView.setBackgroundResource(0);
-//					WebSettings websettings = webView.getSettings();
-//					websettings.setSupportZoom(false);
-//					websettings.setBuiltInZoomControls(false);
-//					websettings.setJavaScriptEnabled(false);
-//				
-//
-//					webView.setWebViewClient(new WebViewClient() {
-//						@Override
-//						public boolean shouldOverrideUrlLoading(WebView view,
-//								String url) {
-//							
-//
-//							if (url.startsWith(URL_PREFIX)) {
-//								IntentToPlayer(vPath.getAbsolutePath() + "/"
-//										+ url.replace(URL_PREFIX, ""));
-//								return true;
-//							}
-//
-//							return false;
-//						}
-//
-//					});
-//
-//					lay01.setVisibility(View.GONE);
-//					lay02.setVisibility(View.GONE);
-//					webView.setVisibility(View.VISIBLE);
-//				} else {	
-					
 					File ff=new File(vPath.getAbsolutePath()+"/thumbnail");
 					if(!(ff.exists()))
 						ff.mkdir();
 					for (int i = 0; i < imgViews.length; i++) {						
 						String dir=vPath.getAbsolutePath() + "/thumbnail/"
 								+ (i + 1) + ".jpg";
-						//TODO
 						loader.loadDrawable(dir, new lazyloadc(imgViews[i]));						
 						imgViews[i].setTag(vPath.getAbsolutePath()
 								+ "/" + (i + 1) + ".mp4");
@@ -201,12 +161,6 @@ public class MainActivity extends Activity {
 						Drawable bb=new BitmapDrawable(bt);
 						background.setBackgroundDrawable(bb);
 					}
-//				}
-//			}
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
 		return;
 	}
 	
@@ -291,9 +245,11 @@ public class MainActivity extends Activity {
 	Barcode barcode=new Barcode(GlobalString.sdcard+"/",this) {	
 		@Override
 		void showPic() {
+			
+	//		Toast.makeText(mContext, res, Toast.LENGTH_LONG).show();
 			String pic=where+"barcode/"+GlobalString.orientation+"/"+res+".jpg";
-			System.out.println("==="+pic);
-			System.out.println(res);
+//			System.out.println("==="+pic);
+//			System.out.println(res);
 			handler.removeCallbacks(back);
 			
 			if(res=="")return;

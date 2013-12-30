@@ -440,15 +440,17 @@ public class Player extends Activity {
 			handler.sendEmptyMessage(1234);
 		}
 	};
-	Barcode barcode=new Barcode(GlobalString.sdcard+"/barcode/",this) {	
+	Barcode barcode=new Barcode(GlobalString.sdcard+"/",this) {	
 		@Override
 		void showPic() {
-		//	res=res.substring(1, 13);
+			//Toast.makeText(mContext, res, Toast.LENGTH_LONG).show();
+			String pic=where+"barcode/"+GlobalString.orientation+"/"+res+".jpg";
+//			System.out.println("==="+pic);
 			video.Close();
 			handler.removeCallbacks(back);
 			if(res=="")return;
-			if(new File(where+res+".jpg").exists()){
-				Drawable da=new BitmapDrawable(BitmapFactory.decodeFile(where+res+".jpg"));
+			if(new File(pic).exists()){
+				Drawable da=new BitmapDrawable(BitmapFactory.decodeFile(pic));
 				barcodeimg.setBackgroundDrawable(da);
 				soundPool.play(spId, 1, 1, 1, 0, 1);
 				barcodeimg.setVisibility(View.VISIBLE);

@@ -34,6 +34,7 @@ public abstract class Barcode {
 		while(readKey(keyCode)){	
 			System.out.println(res);
 			showPic();
+			res="";
 			break;
 		}
 		return this;
