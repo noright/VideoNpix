@@ -88,7 +88,7 @@ public class MainActivity extends Activity {
 
 		}
 		
-		
+		System.out.println("==="+getWindowManager().getDefaultDisplay().getHeight());
 		imgViews =  new ImageButton[playMaxLenth];
 		barcodeimg=(ImageView) findViewById(R.id.imageView1);
     	imgViews[0] = (ImageButton) findViewById(R.id.imageButton1);
@@ -110,7 +110,7 @@ public class MainActivity extends Activity {
 	protected void onResume() {
 		 
 		System.out.println("===onre");
-				
+		
 		readStrFromSD();
 		if (idleTimer == null) {
 			idleTimer = new IdleMonitorUtil();
@@ -118,8 +118,8 @@ public class MainActivity extends Activity {
        
 		if (idleTimer != null) {
 			delayScrSaver = false;
-			idleTimer.stopTimer();
-			idleTimer.startTimer();
+//			idleTimer.stopTimer();
+//			idleTimer.startTimer();
 		}
 		ZuniMachineLib.logToText("MainAct is active.", DIR_PREFIX);
 		super.onResume();
@@ -248,7 +248,7 @@ public class MainActivity extends Activity {
 			
 	//		Toast.makeText(mContext, res, Toast.LENGTH_LONG).show();
 			String pic=where+"barcode/"+GlobalString.orientation+"/"+res+".jpg";
-//			System.out.println("==="+pic);
+			System.out.println("==="+pic);
 //			System.out.println(res);
 			handler.removeCallbacks(back);
 			
@@ -297,25 +297,74 @@ public class MainActivity extends Activity {
 	}
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
+		System.out.println(getWindowManager().getDefaultDisplay().getWidth());
+		System.out.println(getWindowManager().getDefaultDisplay().getHeight());
 		switch(newConfig.orientation){		
 		case Configuration.ORIENTATION_PORTRAIT:
 			GlobalString.orientation="PORTRAIT";
 			 if (playMaxLenth == 2) {
-		        	setContentView(R.layout.standby2_p);
+				 switch(getWindowManager().getDefaultDisplay().getWidth()){
+				 case 768:
+					 System.out.println("here");
+					 setContentView(R.layout.standby2_p_1366);
+					 break;
+				 case 600:
+					 setContentView(R.layout.standby2_p_1024);
+					 break;
+				 }
+		        	
 		        } else if (playMaxLenth == 4) {
-		        	setContentView(R.layout.standby4_p);
+		        	switch(getWindowManager().getDefaultDisplay().getWidth()){
+					 case 768:
+						 System.out.println("here");
+						 setContentView(R.layout.standby4_p_1366);
+						 break;
+					 case 600:
+						 setContentView(R.layout.standby4_p_1024);
+						 break;
+					 }
+			        	
 		        } else if(playMaxLenth == 6) {
-		        	setContentView(R.layout.standby6_p);
+		        	switch(getWindowManager().getDefaultDisplay().getWidth()){
+					 case 768:
+						 System.out.println("here");
+						 setContentView(R.layout.standby6_p_1366);
+						 break;
+					 case 600:
+						 setContentView(R.layout.standby6_p_1024);
+						 break;
+					 }
 		        } 
 			break;
 		case Configuration.ORIENTATION_LANDSCAPE:
 			GlobalString.orientation="LANDSCAPE";
 			 if (playMaxLenth == 2) {
-		        	setContentView(R.layout.standby2_l);
+				 switch(getWindowManager().getDefaultDisplay().getWidth()){
+				 case 1366:
+					 setContentView(R.layout.standby2_l_1366);
+					 break;
+				 case 1024:
+					 setContentView(R.layout.standby2_l_1024);
+					 break;
+				 }
 		        } else if (playMaxLenth == 4) {
-		        	setContentView(R.layout.standby4_l);
+		        	switch(getWindowManager().getDefaultDisplay().getWidth()){
+					 case 1366:
+						 setContentView(R.layout.standby4_l_1366);
+						 break;
+					 case 1024:
+						 setContentView(R.layout.standby4_l_1024);
+						 break;
+					 }
 		        } else if(playMaxLenth == 6) {
-		        	setContentView(R.layout.standby6_l);
+		        	switch(getWindowManager().getDefaultDisplay().getWidth()){
+					 case 1366:
+						 setContentView(R.layout.standby6_l_1366);
+						 break;
+					 case 1024:
+						 setContentView(R.layout.standby6_l_1024);
+						 break;
+					 }
 		        } 
 			break;
 		}

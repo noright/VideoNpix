@@ -21,7 +21,7 @@
     <string name="Details">Details:</string>
     <string name="NONO">No such information</string>
 	<string name="three">3s</string>
-    <string name="five">5s</string>
+    <string name="five">10s</string>
     <string name="thirty">30s</string>
     <string name="sixty">60s</string>
     <string name="waiting">WaitTime:</string>

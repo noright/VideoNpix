@@ -95,7 +95,7 @@ public class LoginActivity extends Activity {
 			        	editor.putInt("time", 3);
 					    editor.commit();
 					} else if (rButton7.isChecked()) {
-			        	editor.putInt("time", 5);
+			        	editor.putInt("time", 10);
 					    editor.commit();
 					} else if (rButton8.isChecked()) {
 			        	editor.putInt("time", 30);
@@ -130,7 +130,7 @@ public class LoginActivity extends Activity {
 		//	setContentView(R.layout.login_l);
 		//	break;
 		//case Configuration.ORIENTATION_LANDSCAPE:
-			setContentView(R.layout.login_p);
+			setContentView(R.layout.login);
 		//	break;
 	//	}
 		super.onConfigurationChanged(newConfig);

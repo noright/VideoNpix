@@ -62,9 +62,6 @@ public class PixImageView extends ImageButton {
 		if(event.getAction()==MotionEvent.ACTION_UP){				
 				da.setColorFilter(new ColorMatrixColorFilter(BT_NOT_SELECTED));
 				setBackgroundDrawable(da);
-//				System.out.println(getTag());
-//				video.Open((String) getTag());
-//				video.Play();
 				Intent intent =new Intent(mContext,Player.class);
 				intent.putExtra("playFile",(String) getTag());
 				mContext.startActivity(intent);	
@@ -76,5 +73,4 @@ public class PixImageView extends ImageButton {
 		}		
 		return false;
 	}
-	
 }

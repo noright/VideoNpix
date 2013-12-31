@@ -1,17 +1,12 @@
 package com.farcore.playerservice;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.lang.ref.WeakReference;
-
-import com.JohnnyWorks.videoNpix.GlobalString;
 
 import android.app.Activity;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
+
+import com.JohnnyWorks.videoNpix.GlobalString;
 
 public abstract class PlayerHandler extends Handler {
 
