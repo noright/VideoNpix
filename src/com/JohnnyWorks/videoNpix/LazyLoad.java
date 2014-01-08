@@ -24,15 +24,7 @@ import android.os.Handler;
 import android.os.Message;
 
 public class LazyLoad {
-	private Map<String, SoftReference<Bitmap>>imageCache=
-				new HashMap<String, SoftReference<Bitmap>>();
 	public Bitmap loadDrawable(final String imagePath,final ImageCallback callback){
-		if(imageCache.containsKey(imagePath)){
-			SoftReference<Bitmap>softReference=imageCache.get(imagePath);
-			if(softReference.get()!=null){
-				return softReference.get();
-			}
-		}
 		final Handler handler=new Handler(){
 			public void handleMessage(Message msg) {
 				callback.ImageLoaded(msg.obj);
@@ -45,9 +37,8 @@ public class LazyLoad {
 				Bitmap bitmap=null;
 				String path=null;
 				if(new File(imagePath).exists()){
-					System.out.println("now");
 					bitmap=BitmapFactory.decodeFile(imagePath, opts);
-				}					
+				}			
 				else{
 					System.out.println(imagePath);
 					path=imagePath.replace("thumbnail/", "");
@@ -57,7 +48,7 @@ public class LazyLoad {
 					bitmap=BitmapFactory.decodeFile(imagePath, opts);
 				}
 				
-			//TODO	
+			//TODO	Õº∆¨¥¶¿Ì
 			//	bitmap=getRoundedCornerBitmap(bitmap, (float) 0.05);
 			//	bitmap=createReflectionImageWithOrigin(bitmap);
 				Message message=handler.obtainMessage(0, bitmap);

@@ -25,4 +25,7 @@
     <string name="thirty">30s</string>
     <string name="sixty">60s</string>
 	<string name="waiting">等待时间:</string>
+	<string name="selfstart">自启动:</string>
+	<string name="yes">是</string>
+	<string name="no">否</string>
 </resources>

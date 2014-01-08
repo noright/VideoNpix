@@ -26,6 +26,6 @@
     <string name="sixty">60s</string>
     <string name="waiting">WaitTime:</string>
 	<string name="selfstart">Self Start:</string>
-<string name="yes">Yes</string>
-<string name="no">No</string>
+	<string name="yes">Yes</string>
+	<string name="no">No</string>
 </resources>

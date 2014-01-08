@@ -1,0 +1,32 @@
+<com.JohnnyWorks.videoNpix.ARelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ARelativeLayout1"
+    android:layout_width="1366dp"
+    android:layout_height="768dp"
+    android:background="@drawable/bg"
+     >
+
+    <com.JohnnyWorks.videoNpix.PixImageView
+        android:id="@+id/imageButton1"
+        android:layout_width="600dp"
+        android:layout_height="600dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="68dp" />
+
+    <com.JohnnyWorks.videoNpix.PixImageView
+        android:id="@+id/imageButton2"
+        android:layout_width="600dp"
+        android:layout_height="600dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="700dp"
+        android:layout_marginTop="68dp" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</com.JohnnyWorks.videoNpix.ARelativeLayout>

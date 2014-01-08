@@ -9,6 +9,7 @@ import java.util.Date;
 
 import com.zunidata.zunidataapi.ZunidataEnvironment;
 
+import android.media.MediaPlayer;
 import android.os.Environment;
 import android.util.Log;
 
@@ -27,7 +28,6 @@ public class ZuniMachineLib {
 	public static Boolean IsZuniMachine() {
 		if (debug_mode)
 			return true;
-
 
 		for (int i = 0; i < modelName.length; i++) {
 			if (android.os.Build.MODEL.contains(modelName[i]))

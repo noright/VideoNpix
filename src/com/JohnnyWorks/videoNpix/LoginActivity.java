@@ -30,9 +30,7 @@ public class LoginActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		onConfigurationChanged(getResources().getConfiguration());
-//		setContentView(R.layout.login_p);
-//		
+		onConfigurationChanged(getResources().getConfiguration());	
 		if (!ZuniMachineLib.IsZuniMachine()) {
 			finish();
 			HideStatusBar.disable();
