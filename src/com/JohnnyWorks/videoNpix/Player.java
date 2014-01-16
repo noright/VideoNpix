@@ -236,6 +236,7 @@ public class Player extends Activity {
 					filePath = vPath.getAbsolutePath() + "/" + (playnum + 1)
 							+ ".mp4";
 				}
+				
 				video.Init();
 				video.RegisterClientMessager(new Messenger(new HandlerImp()).getBinder());
 				video.Open(filePath);
@@ -457,7 +458,7 @@ public class Player extends Activity {
 				res="";
 				handler.postDelayed(back, 5000);
 			}else{
-				Drawable da=new BitmapDrawable(BitmapFactory.decodeFile(where+"noinformation.jpg"));
+				Drawable da=new BitmapDrawable(BitmapFactory.decodeFile(where+"/barcode/noinformation.jpg"));
 				barcodeimg.setBackgroundDrawable(da);
 				barcodeimg.setVisibility(View.VISIBLE);
 				res="";

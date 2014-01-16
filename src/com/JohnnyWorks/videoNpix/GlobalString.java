@@ -17,8 +17,9 @@ public class GlobalString {
 	public static final String Fb1Blank= "/sys/class/graphics/fb1/blank";
 	public static final String Videoaxis= "/sys/class/video/axis";
 	public static final String videoangle= "/sys/class/ppmgr/angle";
-	public static int time=30;	
+	public static int time=30;
 	public static String sdcard=ZunidataEnvironment.External_Storage_Path;
+	public static String videopath=sdcard+"/video6pix/thumbnail/";
 	public static String background=sdcard+"/barcode/background.jpg";
 	public static String orientation="LANDSCAPE";
 	static public void writeFile(String file, String value){

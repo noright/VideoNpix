@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageButton;
 
 public class PixImageView extends ImageButton {
@@ -55,20 +56,25 @@ public class PixImageView extends ImageButton {
            0.5f, 0.339f, 0.332f, 0, 0,  
            0,     0,      0,     1, 0  
        };
+	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		System.out.println(LOG+event.getAction());
 		Drawable da=getBackground();
 		if(event.getAction()==MotionEvent.ACTION_UP){				
-				da.setColorFilter(new ColorMatrixColorFilter(BT_NOT_SELECTED));
-				setBackgroundDrawable(da);
+			//	da.setColorFilter(new ColorMatrixColorFilter(BT_NOT_SELECTED));
+				
 				Intent intent =new Intent(mContext,Player.class);
-				intent.putExtra("playFile",(String) getTag());
+				String _p=(String) getTag();
+				if(_p==null)return true;
+				_p=_p.replaceAll("jpg", "mp4");
+				_p=_p.replaceAll("/thumbnail", "");
+				intent.putExtra("playFile",_p);
 				mContext.startActivity(intent);	
 				return true;
 			}else if(event.getAction()==MotionEvent.ACTION_DOWN){
-				da.setColorFilter(new ColorMatrixColorFilter(BT_SELECTED1));
-				setBackgroundDrawable(da);
+			//	da.setColorFilter(new ColorMatrixColorFilter(BT_SELECTED1));
+				
 				return true;
 		}		
 		return false;
