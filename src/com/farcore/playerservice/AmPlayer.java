@@ -282,7 +282,6 @@ public class AmPlayer {
 			}
 		}
 		catch (IOException e) {
-			// TODO Auto-generated catch block
 			Log.e("", "IOException when write "+OutputFile);
 		}
 	}

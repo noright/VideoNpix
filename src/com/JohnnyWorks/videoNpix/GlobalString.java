@@ -5,10 +5,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import com.zunidata.zunidataapi.ZunidataEnvironment;
-
-import android.os.Environment;
 import android.util.Log;
+
+import com.zunidata.zunidataapi.ZunidataEnvironment;
 
 public class GlobalString {
 	public static final String TAG="dummy";
@@ -19,9 +18,14 @@ public class GlobalString {
 	public static final String videoangle= "/sys/class/ppmgr/angle";
 	public static int time=30;
 	public static String sdcard=ZunidataEnvironment.External_Storage_Path;
-	public static String videopath=sdcard+"/video6pix/thumbnail/";
+	public static String imagepath=sdcard+"/video6pix/thumbnail/";
+	public static String videopath=sdcard+"/video6pix/";
 	public static String background=sdcard+"/barcode/background.jpg";
 	public static String orientation="LANDSCAPE";
+	public static PlayList mpl;
+	static{
+		mpl=new PlayList(GlobalString.imagepath);
+	}
 	static public void writeFile(String file, String value){
 		File OutputFile = new File(file);
 		if(!OutputFile.exists()) {        	

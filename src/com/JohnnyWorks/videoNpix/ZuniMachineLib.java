@@ -7,11 +7,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
 
-import com.zunidata.zunidataapi.ZunidataEnvironment;
-
-import android.media.MediaPlayer;
-import android.os.Environment;
 import android.util.Log;
+
+import com.zunidata.zunidataapi.ZunidataEnvironment;
 
 public class ZuniMachineLib {
 	private static final String TAG = "videoNpix";
@@ -78,10 +76,10 @@ public class ZuniMachineLib {
 
 			if (ZuniMachineLib.useInternalMem)
 				vPath = new File(ZunidataEnvironment.getInternalStoragePath()
-						+ dir);
+						);
 			else {
 				vPath = new File(ZunidataEnvironment.getExternalStoragePath()
-						+ dir);
+						);
 			}
 			fWriter = new FileWriter(
 					vPath.getAbsolutePath()

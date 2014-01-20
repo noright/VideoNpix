@@ -2,7 +2,6 @@ package com.JohnnyWorks.videoNpix;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -33,6 +32,7 @@ public class PlayList {
 	}
 	
 	public String getItem(int i){
+		
 		return mList.get(i);
 	}
 	public int count(){

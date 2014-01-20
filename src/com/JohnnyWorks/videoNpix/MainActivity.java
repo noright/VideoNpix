@@ -8,17 +8,12 @@ import java.util.List;
 import java.util.Timer;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
@@ -29,7 +24,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -37,12 +31,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.JohnnyWorks.videoNpix.LazyLoad.ImageCallback;
@@ -59,17 +49,15 @@ public class MainActivity extends Activity {
 	private int playMaxLenth;
 	private String DIR_PREFIX;
 	private ImageView barcodeimg;
-	private boolean delayScrSaver;
 	private SoundPool soundPool;
 	private int spId;
-	public static PlayList mpl;
 	private List<View> mListView;
 	private ViewPager vp;
 	@SuppressWarnings("deprecation")
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		
 		vp=new ViewPager(this);
-		mpl=new PlayList(GlobalString.videopath);
+		GlobalString.mpl=new PlayList(GlobalString.imagepath);
 		mListView=new ArrayList<View>();
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -80,7 +68,7 @@ public class MainActivity extends Activity {
 		SharedPreferences preferences = getSharedPreferences("config", Context.MODE_PRIVATE);
 		playMaxLenth = preferences.getInt("pixnum", 0);
 		
-		int size=mpl.count()/playMaxLenth+(mpl.count()%playMaxLenth>0?1:0);
+		int size=GlobalString.mpl.count()/playMaxLenth+(GlobalString.mpl.count()%playMaxLenth>0?1:0);
 		for (int i = 0; i < size; i++) {
 			switch(playMaxLenth){
 			case 2:
@@ -95,8 +83,7 @@ public class MainActivity extends Activity {
 				
 			}
 		}
-		
-		DIR_PREFIX = "/video" + playMaxLenth + "pix/";
+
 		soundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 100);
         spId = soundPool.load(this,R.raw.di, 1);
         onConfigurationChanged(getResources().getConfiguration());
@@ -139,70 +126,18 @@ public class MainActivity extends Activity {
 			}
 		});	
 		for (int i = 0; i < mListView.size(); i++) {
-			System.out.println("==="+i);
 			for (int j = 0; j < playMaxLenth; j++) {
 				imgViews[playMaxLenth*i+j]=(ImageButton) mListView.get(i).findViewById(idlist.get(j));
-				if(playMaxLenth*i+j>=mpl.count()){
+				if(playMaxLenth*i+j>=GlobalString.mpl.count()){
 					imgViews[playMaxLenth*i+j].setVisibility(View.INVISIBLE);
 					continue;
 				}else{
-					System.out.println("==="+GlobalString.videopath+mpl.getItem(playMaxLenth*i+j));
-					imgViews[playMaxLenth*i+j].setTag(GlobalString.videopath+mpl.getItem(playMaxLenth*i+j));
-					imgViews[playMaxLenth*i+j].setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeFile(GlobalString.videopath+mpl.getItem(playMaxLenth*i+j))));
+					imgViews[playMaxLenth*i+j].setTag(playMaxLenth*i+j);
+					loader.loadDrawable(GlobalString.imagepath+GlobalString.mpl.getItem(playMaxLenth*i+j), new lazyloadc(imgViews[playMaxLenth*i+j]));
+//					imgViews[playMaxLenth*i+j].setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeFile(GlobalString.imagepath+GlobalString.mpl.getItem(playMaxLenth*i+j))));
 				}			
 			}
 		}
-//			if(playMaxLenth==2){
-//				imgViews[2*i]=(ImageButton) mListView.get(i).findViewById(R.id.imageButton1);
-//				imgViews[2*i].setTag(GlobalString.videopath+mpl.getItem(2*i));
-//				imgViews[2*i].setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeFile(GlobalString.videopath+mpl.getItem(2*i))));
-//				
-//				imgViews[2*i+1]=(ImageButton) mListView.get(i).findViewById(R.id.imageButton2);
-//				imgViews[2*i+1].setTag(GlobalString.videopath+mpl.getItem(2*i+1));
-//				imgViews[2*i+1].setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeFile(GlobalString.videopath+mpl.getItem(2*i+1))));				
-//			}else if(playMaxLenth == 4) {
-//	        	imgViews[4*i]=(ImageButton) mListView.get(i).findViewById(R.id.imageButton1);
-//	        	imgViews[4*i].setTag(GlobalString.videopath+mpl.getItem(4*i));
-//				imgViews[4*i].setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeFile(GlobalString.videopath+mpl.getItem(4*i))));
-//				
-//				imgViews[4*i+1]=(ImageButton) mListView.get(i).findViewById(R.id.imageButton2);
-//				imgViews[4*i+1].setTag(GlobalString.videopath+mpl.getItem(4*i+1));
-//				imgViews[4*i+1].setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeFile(GlobalString.videopath+mpl.getItem(4*i+1))));
-//				
-//				imgViews[4*i+2]=(ImageButton) mListView.get(i).findViewById(R.id.imageButton3);
-//				imgViews[4*i+2].setTag(GlobalString.videopath+mpl.getItem(4*i+2));
-//				imgViews[4*i+2].setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeFile(GlobalString.videopath+mpl.getItem(4*i+2))));
-//				
-//				imgViews[4*i+3]=(ImageButton) mListView.get(i).findViewById(R.id.imageButton4);
-//				imgViews[4*i+3].setTag(GlobalString.videopath+mpl.getItem(4*i+3));
-//				imgViews[4*i+3].setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeFile(GlobalString.videopath+mpl.getItem(4*i+3))));
-//	        } else if(playMaxLenth == 6) {
-//	        	imgViews[6*i]=(ImageButton) mListView.get(i).findViewById(R.id.imageButton1);
-//	        	imgViews[6*i].setTag(GlobalString.videopath+mpl.getItem(6*i+2));
-//				imgViews[6*i].setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeFile(GlobalString.videopath+mpl.getItem(6*i))));
-//				
-//				imgViews[6*i+1]=(ImageButton) mListView.get(i).findViewById(R.id.imageButton2);
-//				imgViews[6*i+1].setTag(GlobalString.videopath+mpl.getItem(6*i));
-//				imgViews[6*i+1].setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeFile(GlobalString.videopath+mpl.getItem(6*i+1))));
-//				
-//				imgViews[6*i+2]=(ImageButton) mListView.get(i).findViewById(R.id.imageButton3);
-//				imgViews[6*i+2].setTag(GlobalString.videopath+mpl.getItem(6*i+2));
-//				imgViews[6*i+2].setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeFile(GlobalString.videopath+mpl.getItem(6*i+2))));
-//				
-//				imgViews[6*i+3]=(ImageButton) mListView.get(i).findViewById(R.id.imageButton4);
-//				imgViews[6*i+3].setTag(GlobalString.videopath+mpl.getItem(6*i+3));
-//				imgViews[6*i+3].setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeFile(GlobalString.videopath+mpl.getItem(6*i+3))));
-//
-//				imgViews[6*i+4]=(ImageButton) mListView.get(i).findViewById(R.id.imageButton5);
-//				imgViews[6*i+4].setTag(GlobalString.videopath+mpl.getItem(6*i+4));
-//				imgViews[6*i+4].setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeFile(GlobalString.videopath+mpl.getItem(6*i+4))));
-//				
-//				imgViews[6*i+5]=(ImageButton) mListView.get(i).findViewById(R.id.imageButton6);
-//				imgViews[6*i+5].setTag(GlobalString.videopath+mpl.getItem(6*i+5));
-//				imgViews[6*i+5].setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeFile(GlobalString.videopath+mpl.getItem(6*i+5))));
-//				
-//	        }
-		
 		vp.setAdapter(new ViewPagerAdapter());
 		setContentView(vp);
 }
@@ -225,7 +160,7 @@ public class MainActivity extends Activity {
 		@Override
 		public boolean isViewFromObject(View arg0, Object arg1) {
 			return arg0==(arg1);
-		}		
+		}	
 	}
 	
 	@Override
@@ -239,9 +174,9 @@ public class MainActivity extends Activity {
 		}
        
 		if (idleTimer != null) {
-			delayScrSaver = false;
-//			idleTimer.stopTimer();
-//			idleTimer.startTimer();
+//			delayScrSaver = false;
+			idleTimer.stopTimer();
+			idleTimer.startTimer();
 		}
 		ZuniMachineLib.logToText("MainAct is active.", DIR_PREFIX);
 		super.onResume();
@@ -266,7 +201,7 @@ public class MainActivity extends Activity {
 				}
 
 			}
-			vPath.mkdirs();
+//			vPath.mkdirs();
 //					File ff=new File(vPath.getAbsolutePath()+"/thumbnail");
 //					if(!(ff.exists()))
 //						ff.mkdir();

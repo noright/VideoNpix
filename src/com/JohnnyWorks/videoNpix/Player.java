@@ -45,27 +45,18 @@ public class Player extends Activity {
 	private static final String TAG = "videoNpix";
 	private AmPlayer video = new AmPlayer();
 	boolean wantStop = false;
-	private long startTime = -1;
 	private WakeLock mWakeLock;
-	private String playFile = null; 
-	private int playnum = 0; 
-	private int playMaxLenth; 
-	private static boolean[] playedMark;
+	private int playFile = 0; 
 	private String DIR_PREFIX;
 	private Boolean isRandomPlay;
 	private SharedPreferences preferences;
-	private File vPath = null;
 	private int playTimes = 0;
-
-	private SDCardWatcher sdCardWatcher;
-	
+	private SDCardWatcher sdCardWatcher;	
 	private Toast mBrightnessToast;
 	private Toast mSoundToast;
-
 	final static int REQUEST_CLOSE = 0x02;
 	Timer timer;
 	private ImageView barcodeimg;
-	private boolean can=false;
 	private SoundPool soundPool;
 	private int spId;
 	
@@ -74,27 +65,13 @@ public class Player extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		
-		ExitApplication.getInstance().addActivity(this);
-		
-
-		
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);	
+		ExitApplication.getInstance().addActivity(this);		
 		setContentView(R.layout.activity_player);
 		barcodeimg=(ImageView) findViewById(R.id.imageView1);
 		barcodeimg.setVisibility(View.INVISIBLE);
 		preferences = getSharedPreferences("config", Context.MODE_PRIVATE);
-		playMaxLenth = preferences.getInt("pixnum", 0);
-
-		DIR_PREFIX = "/video" + playMaxLenth + "pix/";
 		isRandomPlay = preferences.getBoolean("isRandomPlay", false);
-
-		if (isRandomPlay) {
-			playedMark = new boolean[playMaxLenth];
-			for (int i = 0; i < playMaxLenth; i++) {
-				playedMark[i] = false;
-			}
-		}
 
 		if (!ZuniMachineLib.useInternalMem) {
 			sdCardWatcher = new SDCardWatcher();
@@ -109,61 +86,23 @@ public class Player extends Activity {
 				}
 			});
 		}
+		
 		Intent intent = getIntent();
-		if (intent != null && intent.getStringExtra("playFile") != null) {
-			playFile = intent.getStringExtra("playFile");
+		if (intent != null) {
+			playFile = intent.getIntExtra("playFile", 0);
+			System.out.println(GlobalString.mpl.getItem(playFile));
 			Log.v(TAG, "playFile=" + playFile);
 		}
-
-		if (ZuniMachineLib.useInternalMem) {
-			vPath = new File(ZunidataEnvironment.getInternalStoragePath()
-					+ DIR_PREFIX);
-		} else {
-			if (Environment.getExternalStorageState().equals(
-					Environment.MEDIA_REMOVED)) {
-				Toast.makeText(Player.this,
-						R.string.sdcard_not_found,
-						Toast.LENGTH_SHORT).show();
-				return;
-			} else {
-				vPath = new File(ZunidataEnvironment.getExternalStoragePath()
-						+ DIR_PREFIX);
-			}
-
-		}
-
-
-		if (intent.hasExtra("videoPos")) {
-			playnum = intent.getIntExtra("videoPos", 0);
-		} else {
-			if (isRandomPlay) {
-				playnum = (int) (Math.random() * playMaxLenth);
-			} else {
-				if (TextUtils.isEmpty(playFile)) {
-					playnum = 0;
-				} else {
-					playnum = Integer.parseInt(playFile.substring(
-							playFile.lastIndexOf(".mp4") - 1,
-							playFile.lastIndexOf(".mp4"))) - 1;
-				}
-			}
-		}
-
-		Log.v(TAG, "playnum=" + playnum);
-
-		startTime = System.currentTimeMillis();// @Leo add
-
-		Log.v(TAG, "now=" + startTime);
-		playTimes = 0;
 
 		logPlayTimes();
 		PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 		mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyTag");
-		mWakeLock.acquire();
-		
+		mWakeLock.acquire();		
 		soundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 100);
         spId = soundPool.load(this,R.raw.di, 1);
         onConfigurationChanged(getResources().getConfiguration());
+        
+        
 	}
 	@Override
 	protected void onResume() {
@@ -178,21 +117,7 @@ public class Player extends Activity {
 
 		@Override
 		public void playMedia() {
-			logPlayTimes();
-
-			if (!TextUtils.isEmpty(playFile)) {
-				playFile = null;
-			}
-			if (isRandomPlay) {
-				playedMark[playnum] = true;
-				int tmpPlaynum = 0;
-				do {
-					tmpPlaynum = (int) (Math.random() * playMaxLenth);
-				} while (tmpPlaynum == playnum || checkPlayedMark(tmpPlaynum));
-				playnum = tmpPlaynum;
-			} else {
-				playnum++;
-			}			
+			logPlayTimes();		
 			setPlayingFile();
 		}		
 	}
@@ -210,68 +135,53 @@ public class Player extends Activity {
 					return;
 				}
 			}
-
-
-			if (!TextUtils.isEmpty(playFile) && (new File(playFile)).exists()) {
-				video.Init();
-				video.RegisterClientMessager(new Messenger(new HandlerImp()).getBinder());
-				video.Open(playFile);
-				video.Play();
-				
-
-				return;
+			System.out.println("==="+GlobalString.mpl.count()+"==="+playFile);
+			String play;
+			if(GlobalString.mpl.count()-1>playFile){
+				play=GlobalString.mpl.getItem(playFile);
+				play=GlobalString.videopath+play.replaceAll("jpg", "mp4");
+				if (isRandomPlay) {
+					playFile = (int) (Math.random() * GlobalString.mpl.count());
+				}else{
+					playFile++;
+				}			
+			}else{
+				play=GlobalString.mpl.getItem(playFile);
+				play=GlobalString.videopath+play.replaceAll("jpg", "mp4");
+				playFile=0;
 			}
-
-			if (TextUtils.isEmpty(playFile)) {
-				String filePath = null;
-				if (ZuniMachineLib.opt_playSingleFile) {
-					filePath = vPath.getAbsolutePath() + "/0.mp4";
-
-				} else {
-					if (!isRandomPlay) {
-						if (playnum >= playMaxLenth) {
-							playnum = 0;
-						}
-					}
-					filePath = vPath.getAbsolutePath() + "/" + (playnum + 1)
-							+ ".mp4";
-				}
-				
-				video.Init();
-				video.RegisterClientMessager(new Messenger(new HandlerImp()).getBinder());
-				video.Open(filePath);
-				video.Play();
-
-				ZuniMachineLib.logToText("Start looping video {" + filePath
-						+ "}", DIR_PREFIX);
-
-			}
-
+			
+			
+			System.out.println("==="+play);
+			video.Init();
+			video.RegisterClientMessager(new Messenger(new HandlerImp()).getBinder());
+			video.Open(play);
+			video.Play();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	private boolean checkPlayedMark(int playnum) {
-
-		boolean isAllPlayed = true; 
-
-		for (int i = 0; i < playedMark.length; i++) {
-			if (playedMark[i] == false) {
-
-				isAllPlayed = false;
-				break;
-			}
-		}
-		if (isAllPlayed) {
-
-			for (int i = 0; i < playedMark.length; i++) {
-				playedMark[i] = false;
-			}
-		}
-		return playedMark[playnum];
-	}
+//	private boolean checkPlayedMark(int playnum) {
+//
+//		boolean isAllPlayed = true; 
+//
+//		for (int i = 0; i < playedMark.length; i++) {
+//			if (playedMark[i] == false) {
+//
+//				isAllPlayed = false;
+//				break;
+//			}
+//		}
+//		if (isAllPlayed) {
+//
+//			for (int i = 0; i < playedMark.length; i++) {
+//				playedMark[i] = false;
+//			}
+//		}
+//		return playedMark[playnum];
+//	}
 
 	
 
@@ -280,6 +190,10 @@ public class Player extends Activity {
 	@Override
 	protected void onPause() {
 		super.onPause();
+		if (mWakeLock != null) {
+			mWakeLock.release();
+			mWakeLock = null;
+		}
 		video.Close();
 	}
 
@@ -288,10 +202,10 @@ public class Player extends Activity {
 		if (sdCardWatcher != null)
 			sdCardWatcher.unRegisterSDCardStateChangeListener(this);
 
-		if (mWakeLock != null) {
-			mWakeLock.release();
-			mWakeLock = null;
-		}
+//		if (mWakeLock != null) {
+//			mWakeLock.release();
+//			mWakeLock = null;
+//		}
 		video.Close();
 		super.onDestroy();
 	}
@@ -444,9 +358,7 @@ public class Player extends Activity {
 	Barcode barcode=new Barcode(GlobalString.sdcard+"/",this) {	
 		@Override
 		void showPic() {
-			//Toast.makeText(mContext, res, Toast.LENGTH_LONG).show();
 			String pic=where+"barcode/"+GlobalString.orientation+"/"+res+".jpg";
-//			System.out.println("==="+pic);
 			video.Close();
 			handler.removeCallbacks(back);
 			if(res=="")return;
@@ -469,8 +381,6 @@ public class Player extends Activity {
 	
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		switch(keyCode){
-		case KeyEvent.KEYCODE_DPAD_DOWN:
-		case KeyEvent.KEYCODE_DPAD_UP:
 		case KeyEvent.KEYCODE_DPAD_LEFT:
 		case KeyEvent.KEYCODE_DPAD_RIGHT:
 			return false;
@@ -480,26 +390,26 @@ public class Player extends Activity {
 	}
 	
 //--------------------------------------------------------------------
-//	public boolean onKeyUp(int keyCode, KeyEvent event) {
-//		if (event.getAction() == KeyEvent.ACTION_UP) {
-//			switch (event.getKeyCode()) {
+	public boolean onKeyUp(int keyCode, KeyEvent event) {
+		if (event.getAction() == KeyEvent.ACTION_UP) {
+			switch (event.getKeyCode()) {
 //			case KeyEvent.KEYCODE_DPAD_DOWN:
 //				adjustBrightness(-1);
 //				return true;
-//			case KeyEvent.KEYCODE_DPAD_UP:
-//				adjustBrightness(1);
-//				return true;
-//			case KeyEvent.KEYCODE_DPAD_LEFT:
-//				adjustVolume(-1);
-//				return true;
-//			case KeyEvent.KEYCODE_DPAD_RIGHT:
-//				adjustVolume(1);
-//				return true;
-//			default:
-//			}
-//		}
-//		return false;
-//	}
+			case KeyEvent.KEYCODE_DPAD_UP:
+				adjustBrightness(1);
+				return true;
+			case KeyEvent.KEYCODE_DPAD_LEFT:
+				adjustVolume(-1);
+				return true;
+			case KeyEvent.KEYCODE_DPAD_RIGHT:
+				adjustVolume(1);
+				return true;
+			default:
+			}
+		}
+		return false;
+	}
 	WindowManager mWindowManager;
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {

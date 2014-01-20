@@ -1,25 +1,20 @@
 package com.JohnnyWorks.videoNpix;
 
 import java.io.File;
-import java.lang.ref.SoftReference;
-import java.util.HashMap;
-import java.util.Map;
+import java.lang.ref.WeakReference;
 
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.Bitmap.Config;
-import android.graphics.PorterDuff.Mode;
 import android.graphics.Shader.TileMode;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 
@@ -55,6 +50,7 @@ public class LazyLoad {
 				handler.sendMessage(message);						
 			}
 			
+			@SuppressWarnings("unused")
 			private Bitmap getRoundedCornerBitmap(Bitmap bitmap, float roundPx) {  				
 			    int w = bitmap.getWidth();  
 			    int h = bitmap.getHeight();  
@@ -77,6 +73,7 @@ public class LazyLoad {
 			    return output;  
 			}
 			
+			@SuppressWarnings("unused")
 			private Bitmap createReflectionImageWithOrigin(Bitmap bitmap){
 				final int reflectionGap = 1;
 				int width = bitmap.getWidth();
@@ -108,6 +105,7 @@ public class LazyLoad {
 
 				return bitmapWithReflection;
 				} 
+			@SuppressWarnings("unused")
 			private Bitmap getshaw(Bitmap bitmap){
 				Bitmap ret=bitmap;
 				
