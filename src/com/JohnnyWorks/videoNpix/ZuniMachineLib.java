@@ -16,7 +16,7 @@ import android.util.Log;
 public class ZuniMachineLib {
 	private static final String TAG = "videoNpix";
 	public static final String[] modelName = { "7UT", "10UT", "10N", "19N", 
-		"6-APPC", "7-APPC", "10-APPC", "FMT-7AT", "FMT-10AT", "7RT", "MB211", "MB222","10-APPC-DS"};
+		"6-APPC", "7-APPC", "10-APPC", "FMT-7AT", "FMT-10AT", "7RT", "MB211", "MB222","10-APPC-DS","7-APPC","FMT-10DS","FMT-19AT","19APPC","FMT-BX1","ABPC-500","FMT-BX2","ABPC-520","FMT-07ATO","OF-07","FMT-10ATO","OF-010","FMT-18ATO","OF-180","FMT-7RT","7RT"};
 	public static final String cmdStart_systemui = "am startservice -n com.android.systemui/.SystemUIService";
 	public static final String cmdKill_systemui = "killall com.android.systemui";
 
