@@ -75,7 +75,8 @@ public abstract class PlayerHandler extends Handler {
 		static final int DIVX_RENTAL=0x40003;
 	}
 	private void switcherror(int error){		
-		System.out.println(Errorno.getErrorInfo(error));		
+		System.out.println(Errorno.getErrorInfo(error));
+		playMedia();
 	}
 	
 	/*

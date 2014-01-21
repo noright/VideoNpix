@@ -1,14 +1,13 @@
 package com.JohnnyWorks.videoNpix;
 
-import com.zunidata.zunidataapi.ZunidataEnvironment;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Environment;
-import android.widget.Toast;
+
+import com.zunidata.zunidataapi.ZunidataEnvironment;
 
 public class SDCardWatcher
 {

@@ -1,18 +1,19 @@
 package com.JohnnyWorks.videoNpix;
 
-import com.farcore.playerservice.AmPlayer;
-import com.farcore.playerservice.PlayerHandler;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Messenger;
-import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.widget.ImageButton;
+
+import com.farcore.playerservice.AmPlayer;
+import com.farcore.playerservice.PlayerHandler;
 
 public class PixImageView extends ImageButton {
 	String LOG="==="+getClass().getSimpleName();
@@ -48,27 +49,27 @@ public class PixImageView extends ImageButton {
 	}
 	
 	public final float[] BT_SELECTED = new float[] {1,0,0,0,99,0,1,0,0,99,0,0,1,0,99,0,0,0,1,0};
-    public final float[] BT_NOT_SELECTED = new float[]  {1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0};;
+    public final float[] BT_NOT_SELECTED = new float[]  {1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0};
     public final static float[] BT_SELECTED1 = new float[] {         
            0.5f, 0.339f, 0.332f, 0, 0,       
            0.5f, 0.339f, 0.332f, 0, 0,  
            0.5f, 0.339f, 0.332f, 0, 0,  
            0,     0,      0,     1, 0  
        };
+	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		System.out.println(LOG+event.getAction());
 		Drawable da=getBackground();
 		if(event.getAction()==MotionEvent.ACTION_UP){				
-				da.setColorFilter(new ColorMatrixColorFilter(BT_NOT_SELECTED));
-				setBackgroundDrawable(da);
+				
+				int s=(Integer) getTag();
 				Intent intent =new Intent(mContext,Player.class);
-				intent.putExtra("playFile",(String) getTag());
+				intent.putExtra("playFile",s);
 				mContext.startActivity(intent);	
 				return true;
 			}else if(event.getAction()==MotionEvent.ACTION_DOWN){
-				da.setColorFilter(new ColorMatrixColorFilter(BT_SELECTED1));
-				setBackgroundDrawable(da);
+//				da.setColorFilter(new ColorMatrixColorFilter(BT_SELECTED1));
 				return true;
 		}		
 		return false;

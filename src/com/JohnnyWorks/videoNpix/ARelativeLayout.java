@@ -3,18 +3,9 @@ package com.JohnnyWorks.videoNpix;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.os.Message;
 import android.util.AttributeSet;
-import android.view.KeyEvent;
-import android.view.KeyEvent.Callback;
 import android.view.MotionEvent;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 public class ARelativeLayout extends RelativeLayout {

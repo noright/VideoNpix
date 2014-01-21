@@ -5,19 +5,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.graphics.Bitmap.Config;
-import android.graphics.PorterDuff.Mode;
 import android.media.MediaMetadataRetriever;
 
 public class Thumbnail {
 	private Bitmap bitmap;
+	@SuppressLint("NewApi")
 	private int getThumbnail(String file){
 		
 		MediaMetadataRetriever mmr=new MediaMetadataRetriever();
