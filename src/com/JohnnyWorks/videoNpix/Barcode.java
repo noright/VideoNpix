@@ -1,8 +1,6 @@
 package com.JohnnyWorks.videoNpix;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
 
 
 public abstract class Barcode {

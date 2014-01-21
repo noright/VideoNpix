@@ -1,19 +1,19 @@
 package com.JohnnyWorks.videoNpix;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Timer;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
@@ -22,18 +22,17 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.JohnnyWorks.videoNpix.LazyLoad.ImageCallback;
@@ -41,33 +40,49 @@ import com.zunidata.zunidataapi.ZunidataEnvironment;
 
 public class MainActivity extends Activity {
 	private LazyLoad loader;
-	private static final String TAG = "video2pix";
 	public static final String URL_PREFIX = "video2pix:";
 	private ImageButton[] imgViews;
 	private IdleMonitorUtil idleTimer;
 	private File vPath = null;
 	private SDCardWatcher sdCardWatcher;
-	private WebView webView;
-	private LinearLayout lay01;
-	private LinearLayout lay02;
 	Timer timer;
 	private int playMaxLenth;
 	private String DIR_PREFIX;
 	private ImageView barcodeimg;
-	private boolean delayScrSaver;
 	private SoundPool soundPool;
 	private int spId;
+	private List<View> mListView;
+	private ViewPager vp;
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		
-		System.out.println("===oncreat");
+		vp=new ViewPager(this);
+		GlobalString.mpl=new PlayList(GlobalString.imagepath);
+		mListView=new ArrayList<View>();
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);		
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		ExitApplication.getInstance().addActivity(this);
 		loader=new LazyLoad();
+		LayoutInflater _li=getLayoutInflater();
 		SharedPreferences preferences = getSharedPreferences("config", Context.MODE_PRIVATE);
 		playMaxLenth = preferences.getInt("pixnum", 0);
-		DIR_PREFIX = "/video" + playMaxLenth + "pix/";
+		
+		int size=GlobalString.mpl.count()/playMaxLenth+(GlobalString.mpl.count()%playMaxLenth>0?1:0);
+		for (int i = 0; i < size; i++) {
+			switch(playMaxLenth){
+			case 2:
+				mListView.add(_li.inflate(R.layout.standby2, null));
+				break;
+			case 4:
+				mListView.add(_li.inflate(R.layout.standby4, null));
+				break;
+			case 6:
+				mListView.add(_li.inflate(R.layout.standby6, null));
+				break;
+				
+			}
+		}
+
 		soundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 100);
         spId = soundPool.load(this,R.raw.di, 1);
         onConfigurationChanged(getResources().getConfiguration());
@@ -87,29 +102,71 @@ public class MainActivity extends Activity {
 					});
 
 		}
-		 if (playMaxLenth == 2) {
-			setContentView(R.layout.standby2);
-       } else if (playMaxLenth == 4) {
-			setContentView(R.layout.standby4);
-       } else if(playMaxLenth == 6) {
-			setContentView(R.layout.standby6);
-       } 
-		System.out.println("==="+getWindowManager().getDefaultDisplay().getHeight());
-		imgViews =  new ImageButton[playMaxLenth];
-		barcodeimg=(ImageView) findViewById(R.id.imageView1);
-    	imgViews[0] = (ImageButton) findViewById(R.id.imageButton1);
-    	imgViews[1] = (ImageButton) findViewById(R.id.imageButton2);
-    	
-        if (playMaxLenth == 4) {
-        	imgViews[2] =  (ImageButton) findViewById(R.id.imageButton3);
-        	imgViews[3] =  (ImageButton) findViewById(R.id.imageButton4);
-        } else if(playMaxLenth == 6) {
-        	imgViews[2] = (ImageButton) findViewById(R.id.imageButton3);
-        	imgViews[3] = (ImageButton) findViewById(R.id.imageButton4);
-        	imgViews[4] = (ImageButton) findViewById(R.id.imageButton5);
-        	imgViews[5] = (ImageButton) findViewById(R.id.imageButton6);
-        	
-        }
+			
+		imgViews =  new ImageButton[size*playMaxLenth];		
+		barcodeimg=new ImageView(this);
+		
+		List<Integer> idlist=new ArrayList<Integer>();		
+		switch(playMaxLenth){
+		case 6:
+			idlist.add(R.id.imageButton6);
+			idlist.add(R.id.imageButton5);
+		case 4:
+			idlist.add(R.id.imageButton4);
+			idlist.add(R.id.imageButton3);
+		case 2:
+			idlist.add(R.id.imageButton2);
+			idlist.add(R.id.imageButton1);
+		}
+		Collections.sort(idlist, new Comparator<Integer>() {
+			
+			public int compare(Integer arg0, Integer arg1) {
+				return arg0-arg1;
+			}
+		});
+		for (int i = 0; i < mListView.size(); i++) {
+			for (int j = 0; j < playMaxLenth; j++) {
+				imgViews[playMaxLenth*i+j]=(ImageButton) mListView.get(i).findViewById(idlist.get(j));
+				if(playMaxLenth*i+j>=GlobalString.mpl.count()){
+					imgViews[playMaxLenth*i+j].setVisibility(View.INVISIBLE);
+					continue;
+				}else{
+					imgViews[playMaxLenth*i+j].setTag(playMaxLenth*i+j);
+					loader.loadDrawable(GlobalString.imagepath+GlobalString.mpl.getItem(playMaxLenth*i+j), new lazyloadc(imgViews[playMaxLenth*i+j]));
+//					imgViews[playMaxLenth*i+j].setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeFile(GlobalString.imagepath+GlobalString.mpl.getItem(playMaxLenth*i+j))));
+				}			
+			}
+		}
+		if(new File(GlobalString.background).exists()){
+			System.out.println("====hahahah");		
+			for (int i = 0; i < mListView.size(); i++) {
+				ARelativeLayout a=(ARelativeLayout) mListView.get(i).findViewById(R.id.ARelativeLayout1);
+				a.setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeFile(GlobalString.background)));
+			}
+		}
+		vp.setAdapter(new ViewPagerAdapter());
+		setContentView(vp);
+	}
+	class ViewPagerAdapter extends PagerAdapter{
+		@Override
+		public Object instantiateItem(ViewGroup container, int position) {
+			container.addView(mListView.get(position), 0);
+			return mListView.get(position);
+		}
+		@Override
+		public void destroyItem(ViewGroup container, int position, Object object) {
+			container.removeView(mListView.get(position));
+		}
+		@Override
+		public int getCount() {
+			
+			return mListView.size();
+		}
+
+		@Override
+		public boolean isViewFromObject(View arg0, Object arg1) {
+			return arg0==(arg1);
+		}	
 	}
 	
 	@Override
@@ -123,16 +180,15 @@ public class MainActivity extends Activity {
 		}
        
 		if (idleTimer != null) {
-			delayScrSaver = false;
-//			idleTimer.stopTimer();
-//			idleTimer.startTimer();
+//			delayScrSaver = false;
+	//		idleTimer.stopTimer();
+		//	idleTimer.startTimer();
 		}
 		ZuniMachineLib.logToText("MainAct is active.", DIR_PREFIX);
 		super.onResume();
 	}
 
 	private void readStrFromSD() {
-//		try {
 			if (ZuniMachineLib.useInternalMem) {
 				vPath = new File(ZunidataEnvironment.getInternalStoragePath()
 						+ DIR_PREFIX );
@@ -150,23 +206,6 @@ public class MainActivity extends Activity {
 				}
 
 			}
-			vPath.mkdirs();
-					File ff=new File(vPath.getAbsolutePath()+"/thumbnail");
-					if(!(ff.exists()))
-						ff.mkdir();
-					for (int i = 0; i < imgViews.length; i++) {						
-						String dir=vPath.getAbsolutePath() + "/thumbnail/"
-								+ (i + 1) + ".jpg";
-						loader.loadDrawable(dir, new lazyloadc(imgViews[i]));						
-						imgViews[i].setTag(vPath.getAbsolutePath()
-								+ "/" + (i + 1) + ".mp4");
-					}
-					if(new File(GlobalString.background).exists()){
-						ARelativeLayout background=(ARelativeLayout) findViewById(R.id.ARelativeLayout1);
-						Bitmap bt=BitmapFactory.decodeFile(GlobalString.background);
-						Drawable bb=new BitmapDrawable(bt);
-						background.setBackgroundDrawable(bb);
-					}
 		return;
 	}
 	
@@ -233,8 +272,9 @@ public class MainActivity extends Activity {
 		public void handleMessage(Message msg) {
 			if(msg.what==1234){
 				idleTimer.startTimer();
-				barcodeimg.setVisibility(View.GONE);
-				for(int i=0;i<imgViews.length;i++)imgViews[i].setVisibility(View.VISIBLE);
+			//	barcodeimg.setVisibility(View.GONE);
+				setContentView(vp);
+				//for(int i=0;i<imgViews.length;i++)imgViews[i].setVisibility(View.VISIBLE);
 			}
 				
 		}		
@@ -247,27 +287,34 @@ public class MainActivity extends Activity {
 			handler.sendEmptyMessage(1234);					
 		}
 	};
+	
+	
 	Context c=this;
-	Barcode barcode=new Barcode(GlobalString.sdcard+"/",this) {	
+	Barcode barcode=new Barcode(GlobalString.barcodepath,this) {	
 		@Override
 		void showPic() {
-			String pic=where+"barcode/"+GlobalString.orientation+"/"+res+".jpg";
+			String pic=where+GlobalString.orientation+"/"+res+".jpg";
 			handler.removeCallbacks(back);
-			
+			System.out.println(pic);
 			if(res=="")return;
 			if(new File(pic).exists()){
 				Drawable da=new BitmapDrawable(BitmapFactory.decodeFile(pic));
 				barcodeimg.setBackgroundDrawable(da);
+				System.out.println("hellp");
+				setContentView(barcodeimg);
 				soundPool.play(spId, 1, 1, 1, 0, 1);
-				for(int i=0;i<imgViews.length;i++)imgViews[i].setVisibility(View.INVISIBLE);
-				barcodeimg.setVisibility(View.VISIBLE);
-				res="";				
+				//for(int i=0;i<imgViews.length;i++)imgViews[i].setVisibility(View.INVISIBLE);
+//				barcodeimg.setVisibility(View.VISIBLE);
+				res="";	
 				handler.postDelayed(back, 5000);
 			}else{
+				System.out.println(where);
+				System.out.println(where+"noinformation.jpg");
 				Drawable da=new BitmapDrawable(BitmapFactory.decodeFile(where+"noinformation.jpg"));
 				barcodeimg.setBackgroundDrawable(da);
-				for(int i=0;i<imgViews.length;i++)imgViews[i].setVisibility(View.INVISIBLE);
-				barcodeimg.setVisibility(View.VISIBLE);
+				setContentView(barcodeimg);
+				//for(int i=0;i<imgViews.length;i++)imgViews[i].setVisibility(View.INVISIBLE);
+				//barcodeimg.setVisibility(View.VISIBLE);
 				res="";					
 				handler.postDelayed(back, 5000);			
 			}

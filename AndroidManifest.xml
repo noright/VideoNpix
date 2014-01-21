@@ -1,8 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.JohnnyWorks.videoNpix"
     android:versionCode="1"
-    android:versionName="2.9.4"
+
+    android:versionName="3.0.0"
     android:sharedUserId="android.uid.system" >  
+
 
     <uses-sdk
         android:minSdkVersion="8"

@@ -7,11 +7,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
 
-import com.zunidata.zunidataapi.ZunidataEnvironment;
-
-import android.media.MediaPlayer;
-import android.os.Environment;
 import android.util.Log;
+
+import com.zunidata.zunidataapi.ZunidataEnvironment;
 
 public class ZuniMachineLib {
 	private static final String TAG = "videoNpix";
@@ -72,20 +70,20 @@ public class ZuniMachineLib {
 	}
 
 	public static void logToText(String msg, String dir) {
-		File vPath = null;
+		String vPath = null;
 		FileWriter fWriter = null;
 		try {
 
 			if (ZuniMachineLib.useInternalMem)
-				vPath = new File(ZunidataEnvironment.getInternalStoragePath()
-						+ dir);
+				vPath = GlobalString.logpath;
+						
 			else {
-				vPath = new File(ZunidataEnvironment.getExternalStoragePath()
-						+ dir);
+				vPath = GlobalString.logpath;
+						
 			}
 			fWriter = new FileWriter(
-					vPath.getAbsolutePath()
-							+ "/log_"
+					vPath
+							+ "log_"
 							+ new java.text.SimpleDateFormat("yyyy_MM_dd").format(new Date())
 							+ ".txt", true);
 
