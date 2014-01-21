@@ -1,5 +1,8 @@
 package com.JohnnyWorks.videoNpix;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.ColorMatrixColorFilter;
@@ -59,15 +62,14 @@ public class PixImageView extends ImageButton {
 		System.out.println(LOG+event.getAction());
 		Drawable da=getBackground();
 		if(event.getAction()==MotionEvent.ACTION_UP){				
-				da.setColorFilter(new ColorMatrixColorFilter(BT_NOT_SELECTED));
+				
 				int s=(Integer) getTag();
 				Intent intent =new Intent(mContext,Player.class);
 				intent.putExtra("playFile",s);
 				mContext.startActivity(intent);	
 				return true;
 			}else if(event.getAction()==MotionEvent.ACTION_DOWN){
-				da.setColorFilter(new ColorMatrixColorFilter(BT_SELECTED1));
-				
+//				da.setColorFilter(new ColorMatrixColorFilter(BT_SELECTED1));
 				return true;
 		}		
 		return false;

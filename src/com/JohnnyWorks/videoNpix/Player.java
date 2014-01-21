@@ -163,25 +163,6 @@ public class Player extends Activity {
 
 	}
 
-//	private boolean checkPlayedMark(int playnum) {
-//
-//		boolean isAllPlayed = true; 
-//
-//		for (int i = 0; i < playedMark.length; i++) {
-//			if (playedMark[i] == false) {
-//
-//				isAllPlayed = false;
-//				break;
-//			}
-//		}
-//		if (isAllPlayed) {
-//
-//			for (int i = 0; i < playedMark.length; i++) {
-//				playedMark[i] = false;
-//			}
-//		}
-//		return playedMark[playnum];
-//	}
 
 	
 
@@ -202,10 +183,6 @@ public class Player extends Activity {
 		if (sdCardWatcher != null)
 			sdCardWatcher.unRegisterSDCardStateChangeListener(this);
 
-//		if (mWakeLock != null) {
-//			mWakeLock.release();
-//			mWakeLock = null;
-//		}
 		video.Close();
 		super.onDestroy();
 	}
@@ -355,10 +332,11 @@ public class Player extends Activity {
 			handler.sendEmptyMessage(1234);
 		}
 	};
-	Barcode barcode=new Barcode(GlobalString.sdcard+"/",this) {	
+	Barcode barcode=new Barcode(GlobalString.barcodepath,this) {	
 		@Override
 		void showPic() {
-			String pic=where+"barcode/"+GlobalString.orientation+"/"+res+".jpg";
+			String pic=where+GlobalString.orientation+"/"+res+".jpg";
+			System.out.println("==="+pic);
 			video.Close();
 			handler.removeCallbacks(back);
 			if(res=="")return;
@@ -370,7 +348,7 @@ public class Player extends Activity {
 				res="";
 				handler.postDelayed(back, 5000);
 			}else{
-				Drawable da=new BitmapDrawable(BitmapFactory.decodeFile(where+"/barcode/noinformation.jpg"));
+				Drawable da=new BitmapDrawable(BitmapFactory.decodeFile(where+"noinformation.jpg"));
 				barcodeimg.setBackgroundDrawable(da);
 				barcodeimg.setVisibility(View.VISIBLE);
 				res="";
@@ -383,6 +361,8 @@ public class Player extends Activity {
 		switch(keyCode){
 		case KeyEvent.KEYCODE_DPAD_LEFT:
 		case KeyEvent.KEYCODE_DPAD_RIGHT:
+		case KeyEvent.KEYCODE_DPAD_UP:
+		case KeyEvent.KEYCODE_DPAD_DOWN:
 			return false;
 		}
 		barcode.show(keyCode);
@@ -390,26 +370,26 @@ public class Player extends Activity {
 	}
 	
 //--------------------------------------------------------------------
-	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		if (event.getAction() == KeyEvent.ACTION_UP) {
-			switch (event.getKeyCode()) {
+//	public boolean onKeyUp(int keyCode, KeyEvent event) {
+//		if (event.getAction() == KeyEvent.ACTION_UP) {
+//			switch (event.getKeyCode()) {
 //			case KeyEvent.KEYCODE_DPAD_DOWN:
 //				adjustBrightness(-1);
 //				return true;
-			case KeyEvent.KEYCODE_DPAD_UP:
-				adjustBrightness(1);
-				return true;
-			case KeyEvent.KEYCODE_DPAD_LEFT:
-				adjustVolume(-1);
-				return true;
-			case KeyEvent.KEYCODE_DPAD_RIGHT:
-				adjustVolume(1);
-				return true;
-			default:
-			}
-		}
-		return false;
-	}
+//			case KeyEvent.KEYCODE_DPAD_UP:
+//				adjustBrightness(1);
+//				return true;
+//			case KeyEvent.KEYCODE_DPAD_LEFT:
+//				adjustVolume(-1);
+//				return true;
+//			case KeyEvent.KEYCODE_DPAD_RIGHT:
+//				adjustVolume(1);
+//				return true;
+//			default:
+//			}
+//		}
+//		return false;
+//	}
 	WindowManager mWindowManager;
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {

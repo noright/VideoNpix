@@ -70,20 +70,21 @@ public class ZuniMachineLib {
 	}
 
 	public static void logToText(String msg, String dir) {
-		File vPath = null;
+		String vPath = null;
 		FileWriter fWriter = null;
 		try {
 
 			if (ZuniMachineLib.useInternalMem)
-				vPath = new File(ZunidataEnvironment.getInternalStoragePath()
-						);
+				vPath = GlobalString.logpath;
+						
 			else {
-				vPath = new File(ZunidataEnvironment.getExternalStoragePath()
-						);
+				vPath = GlobalString.logpath;
+						
 			}
+			System.out.println("==="+vPath);
 			fWriter = new FileWriter(
-					vPath.getAbsolutePath()
-							+ "/log_"
+					vPath
+							+ "log_"
 							+ new java.text.SimpleDateFormat("yyyy_MM_dd").format(new Date())
 							+ ".txt", true);
 

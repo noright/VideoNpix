@@ -18,9 +18,11 @@ public class GlobalString {
 	public static final String videoangle= "/sys/class/ppmgr/angle";
 	public static int time=30;
 	public static String sdcard=ZunidataEnvironment.External_Storage_Path;
-	public static String imagepath=sdcard+"/video6pix/thumbnail/";
-	public static String videopath=sdcard+"/video6pix/";
-	public static String background=sdcard+"/barcode/background.jpg";
+	public static String logpath=sdcard+"/videonpix/log/";
+	public static String imagepath=sdcard+"/videonpix/thumbnail/";
+	public static String videopath=sdcard+"/videonpix/video/";
+	public static String barcodepath=sdcard+"/videonpix/barcode/";
+	public static String background=sdcard+"/videonpix/barcode/background.jpg";
 	public static String orientation="LANDSCAPE";
 	public static PlayList mpl;
 	static{

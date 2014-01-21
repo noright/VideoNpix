@@ -53,7 +53,6 @@ public class MainActivity extends Activity {
 	private int spId;
 	private List<View> mListView;
 	private ViewPager vp;
-	@SuppressWarnings("deprecation")
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		
 		vp=new ViewPager(this);
@@ -124,7 +123,7 @@ public class MainActivity extends Activity {
 			public int compare(Integer arg0, Integer arg1) {
 				return arg0-arg1;
 			}
-		});	
+		});
 		for (int i = 0; i < mListView.size(); i++) {
 			for (int j = 0; j < playMaxLenth; j++) {
 				imgViews[playMaxLenth*i+j]=(ImageButton) mListView.get(i).findViewById(idlist.get(j));
@@ -138,9 +137,16 @@ public class MainActivity extends Activity {
 				}			
 			}
 		}
+		if(new File(GlobalString.background).exists()){
+			System.out.println("====hahahah");		
+			for (int i = 0; i < mListView.size(); i++) {
+				ARelativeLayout a=(ARelativeLayout) mListView.get(i).findViewById(R.id.ARelativeLayout1);
+				a.setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeFile(GlobalString.background)));
+			}
+		}
 		vp.setAdapter(new ViewPagerAdapter());
 		setContentView(vp);
-}
+	}
 	class ViewPagerAdapter extends PagerAdapter{
 		@Override
 		public Object instantiateItem(ViewGroup container, int position) {
@@ -175,15 +181,14 @@ public class MainActivity extends Activity {
        
 		if (idleTimer != null) {
 //			delayScrSaver = false;
-			idleTimer.stopTimer();
-			idleTimer.startTimer();
+	//		idleTimer.stopTimer();
+		//	idleTimer.startTimer();
 		}
 		ZuniMachineLib.logToText("MainAct is active.", DIR_PREFIX);
 		super.onResume();
 	}
 
 	private void readStrFromSD() {
-//		try {
 			if (ZuniMachineLib.useInternalMem) {
 				vPath = new File(ZunidataEnvironment.getInternalStoragePath()
 						+ DIR_PREFIX );
@@ -201,23 +206,6 @@ public class MainActivity extends Activity {
 				}
 
 			}
-//			vPath.mkdirs();
-//					File ff=new File(vPath.getAbsolutePath()+"/thumbnail");
-//					if(!(ff.exists()))
-//						ff.mkdir();
-//					for (int i = 0; i < imgViews.length; i++) {						
-//						String dir=vPath.getAbsolutePath() + "/thumbnail/"
-//								+ (i + 1) + ".jpg";
-//						loader.loadDrawable(dir, new lazyloadc(imgViews[i]));						
-////						imgViews[i].setTag(vPath.getAbsolutePath()
-////								+ "/" + (i + 1) + ".mp4");
-//					}
-//					if(new File(GlobalString.background).exists()){
-//						ARelativeLayout background=(ARelativeLayout) findViewById(R.id.ARelativeLayout1);
-//						Bitmap bt=BitmapFactory.decodeFile(GlobalString.background);
-//						Drawable bb=new BitmapDrawable(bt);
-//						background.setBackgroundDrawable(bb);
-//					}
 		return;
 	}
 	
@@ -284,7 +272,7 @@ public class MainActivity extends Activity {
 		public void handleMessage(Message msg) {
 			if(msg.what==1234){
 				idleTimer.startTimer();
-				barcodeimg.setVisibility(View.GONE);
+			//	barcodeimg.setVisibility(View.GONE);
 				setContentView(vp);
 				//for(int i=0;i<imgViews.length;i++)imgViews[i].setVisibility(View.VISIBLE);
 			}
@@ -302,16 +290,17 @@ public class MainActivity extends Activity {
 	
 	
 	Context c=this;
-	Barcode barcode=new Barcode(GlobalString.sdcard+"/",this) {	
+	Barcode barcode=new Barcode(GlobalString.barcodepath,this) {	
 		@Override
 		void showPic() {
-			String pic=where+"barcode/"+GlobalString.orientation+"/"+res+".jpg";
+			String pic=where+GlobalString.orientation+"/"+res+".jpg";
 			handler.removeCallbacks(back);
-			
+			System.out.println(pic);
 			if(res=="")return;
 			if(new File(pic).exists()){
 				Drawable da=new BitmapDrawable(BitmapFactory.decodeFile(pic));
 				barcodeimg.setBackgroundDrawable(da);
+				System.out.println("hellp");
 				setContentView(barcodeimg);
 				soundPool.play(spId, 1, 1, 1, 0, 1);
 				//for(int i=0;i<imgViews.length;i++)imgViews[i].setVisibility(View.INVISIBLE);
@@ -319,8 +308,9 @@ public class MainActivity extends Activity {
 				res="";	
 				handler.postDelayed(back, 5000);
 			}else{
+				System.out.println(where);
 				System.out.println(where+"noinformation.jpg");
-				Drawable da=new BitmapDrawable(BitmapFactory.decodeFile(where+"barcode/noinformation.jpg"));
+				Drawable da=new BitmapDrawable(BitmapFactory.decodeFile(where+"noinformation.jpg"));
 				barcodeimg.setBackgroundDrawable(da);
 				setContentView(barcodeimg);
 				//for(int i=0;i<imgViews.length;i++)imgViews[i].setVisibility(View.INVISIBLE);
