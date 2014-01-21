@@ -23,8 +23,8 @@ LOCAL_DEX_PREOPT := false
 LOCAL_PACKAGE_NAME := videoNpix
 LOCAL_CERTIFICATE := platform
 
-LOCAL_STATIC_JAVA_LIBRARIES := libzunidataapijar
-
+LOCAL_STATIC_JAVA_LIBRARIES := libzunidataapijar\
+	android-support-v4
 LOCAL_PROGUARD_ENABLED := disabled
 #LOCAL_PROGUARD_FLAGS := -include $(LOCAL_PATH)/proguard.flags
 

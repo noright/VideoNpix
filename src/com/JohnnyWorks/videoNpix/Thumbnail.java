@@ -5,13 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 
 public class Thumbnail {
 	private Bitmap bitmap;
-	@SuppressLint("NewApi")
 	private int getThumbnail(String file){
 		
 		MediaMetadataRetriever mmr=new MediaMetadataRetriever();

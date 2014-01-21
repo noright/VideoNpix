@@ -24,6 +24,7 @@ public class GlobalString {
 	public static String barcodepath=sdcard+"/videonpix/barcode/";
 	public static String background=sdcard+"/videonpix/barcode/background.jpg";
 	public static String orientation="LANDSCAPE";
+	public static int exittime=2000;
 	public static PlayList mpl;
 	static{
 		mpl=new PlayList(GlobalString.imagepath);

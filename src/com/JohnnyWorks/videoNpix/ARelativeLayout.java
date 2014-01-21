@@ -31,14 +31,17 @@ public class ARelativeLayout extends RelativeLayout {
 	
 	Timer timer;
 	boolean touchclose=false;
+	int out=0;
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
 		
 		switch(ev.getAction()){
 		case MotionEvent.ACTION_DOWN:
-			System.out.println("==="+"imagelinear"+ev.getX()+" "+ev.getY());
+			out=0;
+//			System.out.println("==="+"imagelinear"+ev.getX()+" "+ev.getY());
 			if (ev.getX() <= 50 && ev.getY() <= 50) {
 				System.out.println("===1");
+				out=1;
 				touchclose=true;
 				timer = new Timer();
 				timer.schedule(new TimerTask() {
@@ -49,10 +52,18 @@ public class ARelativeLayout extends RelativeLayout {
 						ExitApplication.getInstance().exit(mContext);
 
 					}
-				}, 5000);
+				}, GlobalString.exittime);	
 				return true;
 			}
+			
+			
 		case MotionEvent.ACTION_UP:		
+			
+			if(out==1&&ev.getX()<=50&&ev.getY()>=300){
+				GlobalString.writeFile(GlobalString.Fb0Blank, "0");
+				HideStatusBar.disable();
+				ExitApplication.getInstance().exit(mContext);
+			}
 			if (timer != null) {
 				timer.cancel();
 				if(touchclose){
@@ -64,6 +75,7 @@ public class ARelativeLayout extends RelativeLayout {
 
 		case MotionEvent.ACTION_MOVE:		
 			if (timer != null && (ev.getX() > 50 || ev.getY() > 50)) {
+				//out=0;
 				timer.cancel();
 			}
 			break;	

@@ -181,8 +181,8 @@ public class MainActivity extends Activity {
        
 		if (idleTimer != null) {
 //			delayScrSaver = false;
-	//		idleTimer.stopTimer();
-		//	idleTimer.startTimer();
+			idleTimer.stopTimer();
+			idleTimer.startTimer();
 		}
 		ZuniMachineLib.logToText("MainAct is active.", DIR_PREFIX);
 		super.onResume();

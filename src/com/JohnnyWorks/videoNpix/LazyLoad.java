@@ -43,7 +43,7 @@ public class LazyLoad {
 					bitmap=BitmapFactory.decodeFile(imagePath, opts);
 				}
 				
-			//TODO	Õº∆¨¥¶¿Ì
+			//TODO	
 			//	bitmap=getRoundedCornerBitmap(bitmap, (float) 0.05);
 			//	bitmap=createReflectionImageWithOrigin(bitmap);
 				Message message=handler.obtainMessage(0, bitmap);
