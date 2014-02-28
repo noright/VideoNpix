@@ -7,6 +7,7 @@ public abstract class Barcode {
 	String res,where;
 	KeyCodeTable kt;
 	Context mContext;
+	int oldkey;
 	Barcode(String w,Context context){
 		mContext=context;
 		where=w;
@@ -33,6 +34,7 @@ public abstract class Barcode {
 			System.out.println(res);
 			showPic();
 			res="";
+			oldkey=keyCode;
 			break;
 		}
 		return this;

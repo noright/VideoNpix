@@ -2,7 +2,7 @@
     package="com.JohnnyWorks.videoNpix"
     android:versionCode="1"
 
-    android:versionName="3.0.1"
+    android:versionName="3.0.6"
     android:sharedUserId="android.uid.system" >  
 
 

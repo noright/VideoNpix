@@ -37,7 +37,7 @@ public class LoginActivity extends Activity {
 		}
 		preferences = getSharedPreferences("config", Context.MODE_PRIVATE);
 		editor = preferences.edit();
-		autostart=preferences.getBoolean("autostart", true);
+		autostart=preferences.getBoolean("autostart", false);
 		editor.clear().commit();		
 		    rButton1 = (RadioButton) findViewById(R.id.radioButton1);
 		    rButton2 = (RadioButton) findViewById(R.id.radioButton2);
@@ -53,9 +53,10 @@ public class LoginActivity extends Activity {
 		    button1 = (Button) findViewById(R.id.button1);
 		    button2 = (Button) findViewById(R.id.button2);
 		    
-		    rButton1.setChecked(true);
-		    rButton4.setChecked(true);
-		    rButton8.setChecked(true);
+		    rButton3.setChecked(true);
+		    rButton5.setChecked(true);
+		    rButton6.setChecked(true);
+		    rButton11.setChecked(true);
 		    if(autostart)rButton10.setChecked(true);
 		    else rButton11.setChecked(true);
 		    button1.setOnClickListener(new OnClickListener() {

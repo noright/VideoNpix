@@ -212,7 +212,7 @@ public class Player extends Activity {
 			throw new Error(e);
 		}
 
-		brightness += offset * 30;
+		brightness += offset * 16;
 		if (brightness < 0) {
 			brightness = 0;
 		} else if (brightness > 255) {
@@ -223,6 +223,7 @@ public class Player extends Activity {
 		WindowManager.LayoutParams layoutparams = window.getAttributes();
 		layoutparams.screenBrightness = (1f + (50f - 1f)
 				* ((float) brightness / 255f)) / 50f;
+		if(layoutparams.screenBrightness<0.1)layoutparams.screenBrightness=(float)0.08;
 		window.setAttributes(layoutparams);
 
 		Settings.System.putInt(resolver,
@@ -357,13 +358,31 @@ public class Player extends Activity {
 		}
 	};
 	
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		switch(keyCode){
-		case KeyEvent.KEYCODE_DPAD_LEFT:
-		case KeyEvent.KEYCODE_DPAD_RIGHT:
-		case KeyEvent.KEYCODE_DPAD_UP:
+		public boolean onKeyDown(int keyCode, KeyEvent event) {	
+		
+		switch (keyCode) {
 		case KeyEvent.KEYCODE_DPAD_DOWN:
-			return false;
+			if(!barcode.res.equals("")){
+				;
+			}else if(barcode.oldkey==66){
+				barcode.oldkey=keyCode;
+			}else{
+				adjustBrightness(1);				
+			}		
+			return true;
+		case KeyEvent.KEYCODE_DPAD_UP:
+			adjustBrightness(-1);
+			return true;
+
+		case KeyEvent.KEYCODE_VOLUME_DOWN:
+		case KeyEvent.KEYCODE_DPAD_LEFT:
+			adjustVolume(-1);
+			return super.onKeyDown(KeyEvent.KEYCODE_VOLUME_DOWN, event);
+		
+		case KeyEvent.KEYCODE_VOLUME_UP:
+		case KeyEvent.KEYCODE_DPAD_RIGHT:
+			adjustVolume(1);
+			return super.onKeyDown(KeyEvent.KEYCODE_VOLUME_UP, event);
 		}
 		barcode.show(keyCode);
 		return true;
